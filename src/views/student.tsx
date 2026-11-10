@@ -1,3 +1,4 @@
+import { SCORE_MAX, insightOf } from '../data/insight'
 import React, { useMemo, useState } from 'react'
 import { COMPANY, JOBS, ME_STUDENT } from '../data/seed'
 import { EMPLOYMENTS, matchScore, type Employment, type Role } from '../data/logic'
@@ -138,13 +139,14 @@ export function Jobs() {
 }
 
 const VIEWS = [1, 3, 2, 4]
-const SCORE: [string, number, number][] = [['me.score.acad', 541, 560], ['l.projects', 238, 280], ['me.score.act', 155, 160]]
 
 export function MyProfile() {
   const { t } = useT()
   const me = useStore((s) => studentOf(s, ME_STUDENT))
   const [salary, setSalary] = useState(me.salary / 1e6)
   const [openTo, setOpenTo] = useState<Employment[]>(me.openTo)
+  const sc = insightOf(me).score
+  const SCORE: [string, number, number][] = [['me.score.acad', sc.acad, SCORE_MAX.acad], ['l.projects', sc.proj, SCORE_MAX.proj], ['me.score.act', sc.act, SCORE_MAX.act]]
   const dirty = salary !== me.salary / 1e6 || openTo.join() !== me.openTo.join()
   return (
     <>
