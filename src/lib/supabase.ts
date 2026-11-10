@@ -60,6 +60,16 @@ export const api = {
     if (error) throw new Error(error.message)
     return data
   },
+  /** The record behind the profile charts (migration 0003). */
+  async terms(student: string) {
+    const { data, error } = await client().from('student_terms').select('term, gpa, attendance_pct').eq('student_id', student).order('term')
+    if (error) throw new Error(error.message)
+    return data
+  },
+  cohortStats: () => rpc<{ school: string; students: number; gpa: number; attendance_pct: number; cv_score: number; cv_median: number; score_academic: number; score_projects: number; score_activity: number }[]>('cohort_stats', {}),
+  cohortTerms: () => rpc<{ school: string; term: number; gpa: number; students: number }[]>('cohort_terms', {}),
+  schoolScores: (school: string) => rpc<number[]>('school_scores', { of_school: school }),
+
   async saveNote(companyId: string, studentId: string, body: string) {
     const { error } = await client().from('candidate_notes').upsert({ company_id: companyId, student_id: studentId, body })
     if (error) throw new Error(error.message)
