@@ -1,3 +1,5 @@
+import { cohortRadar, cohortScores, cohortTerms, insightOf, radarOf, standouts } from '../data/insight'
+import { CohortStrip, Radar, SalaryFit, SkillLevels, TermChart } from '../ui/charts'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { COMPANY, ME_STUDENT, PLANS, TODAY } from '../data/seed'
 import {
@@ -136,6 +138,10 @@ function CompareSheet({ ids, role, onClose }: { ids: string[]; role: Role; onClo
     <Sheet title={t('cmp.title')} onClose={onClose} wide>
       <h2 className="sheet-h">{t('cmp.title')}</h2>
       <p className="sheet-sub">{t('pro.matchfor', { role: roleName(role) })}</p>
+      <section className="cmp-radar">
+        <h3>{t('cmp.radar')}</h3>
+        <Radar label={t('cmp.radar')} series={students.map((s) => ({ name: s.name, values: radarOf(s) }))} />
+      </section>
       <div className="table-scroll">
         <table className="cmp">
           <thead><tr><td />{students.map((s) => <th scope="col" key={s.id}><StudentCard s={s} className="scard-s" /></th>)}</tr></thead>
@@ -179,13 +185,24 @@ function InterviewBlock({ s, card }: { s: Student; card: Card }) {
 }
 
 export function ProfileBody({ s, role, card, asStudent }: { s: Student; role?: Role; card?: Card; asStudent?: boolean }) {
-  const { t, date, mlnCur, role: roleName } = useT()
+  const { t, date, mlnCur, role: roleName, lang } = useT()
+  const dec2 = (n: number) => (lang === 'en' ? n.toFixed(2) : n.toFixed(2).replace('.', ','))
   const [busy, setBusy] = useState(false)
   const savedNote = useStore((st) => st.notes[s.id] ?? '')
   const [note, setNote] = useState(savedNote)
   useEffect(() => setNote(savedNote), [savedNote, s.id])
-  const total = useStore((st) => st.students.length)
+  const all = useStore((st) => st.students)
+  const total = all.length
   const first = s.name.split(' ')[0]
+  const insight = insightOf(s)
+  const mine = radarOf(s)
+  const school = useMemo(() => cohortRadar(all, s.school), [all, s.school])
+  const schoolTerms = useMemo(() => cohortTerms(all, s.school), [all, s.school])
+  const pos = cohortScores(all, s)
+  const out = standouts(mine, school)
+  const schoolName = t('school.' + s.school)
+  const trend = Math.round((insight.terms[insight.terms.length - 1].gpa - insight.terms[0].gpa) * 100) / 100
+  const axisList = (xs: { axis: string; d: number }[]) => xs.map((x) => `${t('ax.' + x.axis)} (${x.d > 0 ? '+' : '−'}${Math.abs(x.d)})`).join(', ')
   const [fn, ln] = s.name.toLowerCase().split(' ')
   const parts = role && matchParts(s, role)
   const unlocked = asStudent || card?.intro === 'accepted'
@@ -210,6 +227,17 @@ export function ProfileBody({ s, role, card, asStudent }: { s: Student; role?: R
       </dl>
       <p className="verified"><Icon name="shield" size={15} />{t('pro.verified', { d: date('2026-10-28') })}</p>
 
+      <section>
+        <h3>{t('ch.radar.t')}</h3>
+        <p className="sec-note">{t('ch.radar.d', { school: schoolName })}</p>
+        <Radar label={t('ch.radar.aria', { name: s.name })} series={[{ name: asStudent ? t('ch.you') : first, values: mine }, { name: t('ch.avg'), values: school, ref: true }]} />
+        <ul className="takeaways">
+          {out.strong.length > 0 && <li><Icon name="star" size={15} />{t(asStudent ? 'ch.radar.strong.me' : 'ch.radar.strong', { list: axisList(out.strong) })}</li>}
+          {out.weak.length > 0 && <li className="is-weak"><Icon name="flag" size={15} />{t(asStudent ? 'ch.radar.weak.me' : 'ch.radar.weak', { list: axisList(out.weak) })}</li>}
+          {!out.weak.length && <li><Icon name="check" size={15} />{t('ch.radar.allabove')}</li>}
+        </ul>
+      </section>
+
       {parts && role && (
         <section>
           <h3>{t('pro.matchfor', { role: roleName(role) })}</h3>
@@ -226,8 +254,21 @@ export function ProfileBody({ s, role, card, asStudent }: { s: Student; role?: R
       )}
 
       <section>
+        <h3>{t('ch.gpa.t')}</h3>
+        <p className="sec-note">{trend >= 0.05 ? t('ch.trend.up', { n: dec2(trend) }) : trend <= -0.05 ? t('ch.trend.down', { n: dec2(-trend) }) : t('ch.trend.flat')}</p>
+        <TermChart name={asStudent ? t('ch.you') : first} terms={insight.terms} cohort={schoolTerms} label={t('ch.gpa.t') + ': ' + s.name} />
+      </section>
+
+      <section>
+        <h3>{t('ch.pos.t')}</h3>
+        <p className="sec-note">{t('ch.pos.line', { r: pos.place, n: pos.size, school: schoolName })}</p>
+        <CohortStrip scores={pos.scores} mine={s.cvScore} median={pos.median} label={t('ch.pos.aria', { n: s.cvScore, m: pos.median })} />
+      </section>
+
+      <section>
         <h3>{t('l.skills')}</h3>
-        <div className="tags">{s.skills.map((k) => <span key={k} className={'tag' + (role?.skills.includes(k) ? ' tag-hit' : '')}>{k}</span>)}</div>
+        <SkillLevels levels={insight.levels} wanted={role?.skills} />
+        <p className="sec-note sec-note-b">{t('ch.skills.note')}</p>
       </section>
 
       <section>
@@ -240,6 +281,7 @@ export function ProfileBody({ s, role, card, asStudent }: { s: Student; role?: R
       <section>
         <h3>{t('pro.availability')}</h3>
         <p>{t('pro.avail', { types: s.openTo.map((o) => t('emp.' + o)).join(', '), d: date(s.availableFrom), s: mlnCur(s.salary) })}</p>
+        {role && !asStudent && <SalaryFit expects={s.salary} min={role.salaryMin} max={role.salaryMax} />}
       </section>
 
       <section className={'contacts' + (unlocked ? ' is-open' : '')}>
