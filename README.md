@@ -12,11 +12,13 @@ registrar-verified records, and pay three gross monthly salaries for each hire.
 | Path | What it is |
 |---|---|
 | `src/views/Landing.tsx` | Landing page: draggable student cards, stacked steps, fee calculator, plans, FAQ |
-| `src/views/company.tsx` | Employer: talent base, compare, profile, interview times, pipeline, roles, billing |
+| `src/views/company.tsx` | Employer: talent base, compare, profile with charts, interview times, pipeline, roles, billing |
 | `src/views/student.tsx` | Student: inbox, interview choice, hire confirmation, jobs, profile, preferences |
 | `src/views/office.tsx` | Career office: revenue, funnel, graduate outcomes, placement ledger, companies |
 | `src/i18n.ts` | All copy, key → [English, Russian, Uzbek], plus date and money formats |
 | `src/data/logic.ts` | Ranking formula and fee maths |
+| `src/data/insight.ts` | The record behind the charts: semesters, skill levels, score parts, school averages |
+| `src/ui/charts.tsx` | Radar, GPA by semester, place in the school, skill levels, salary fit, skill gap |
 | `src/data/store.ts` | In-memory demo backend. Each action mirrors one database function |
 | `src/data/seed.ts` | Demo data. Every person and company is invented |
 | `src/data/live.ts` | What the public site reads from the real database: counts only |
@@ -24,7 +26,7 @@ registrar-verified records, and pay three gross monthly salaries for each hire.
 | `supabase/migrations/` | Schema `parvoz`: tables, row level security, functions |
 | `supabase/seed.sql` | The same demo data for the database |
 | `supabase/verify.sql` | Plays one hire on a deployed database, then rolls itself back |
-| `scripts/check-sql.mjs` | Applies everything to an in-process Postgres and runs 46 checks |
+| `scripts/check-sql.mjs` | Applies everything to an in-process Postgres and runs 61 checks |
 | `scripts/check-i18n.mjs` | Checks that every key used in code exists in all three languages |
 
 ## Run it
@@ -33,7 +35,7 @@ registrar-verified records, and pay three gross monthly salaries for each hire.
 npm install          # also draws the placeholder portraits into src/data/portraits.ts
 npm run dev          # prototype on demo data
 npm run check:sql    # access rules, interviews, fee maths, seed, verify script
-npm run check:i18n   # 497 keys in three languages
+npm run check:i18n   # 543 keys in three languages
 npm run build        # site in dist/
 npm run seed:sql     # rebuild supabase/seed.sql from src/data/seed.ts
 ```
@@ -44,7 +46,7 @@ npm run seed:sql     # rebuild supabase/seed.sql from src/data/seed.ts
 
 **Database.** Supabase project `cau-pgc`, schema `parvoz` (it shares the project with the CAU problem
 registry and does not touch its tables). Applied in this order through the SQL editor:
-`0001_init.sql`, `0002_features.sql`, `seed.sql`, then `verify.sql` to check (14 of 14 passed).
+`0001_init.sql`, `0002_features.sql`, `0003_insights.sql`, `seed.sql`, then `verify.sql` to check (14 of 14 passed).
 
 **Connecting the two.** Two switches, both outside the repository:
 
