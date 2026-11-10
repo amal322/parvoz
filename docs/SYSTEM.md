@@ -43,6 +43,8 @@ steps that stack as you scroll, digits that roll in the fee calculator.
 | Talent base ranked for a role, with filters and sort | Visibility switch | Revenue by month, subscriptions and fees |
 | Compare up to three candidates | Intro requests: accept or decline | Funnel from visible profile to hire |
 | Profile with verified record and match breakdown | Pick one of the offered interview times | Graduate outcomes by school |
+| Profile charts: six-measure radar against the school, GPA by semester, place in the school, skill levels | The same charts on the student's own profile, with what to raise first | Skills: demand from open roles against supply among students |
+| Salary expectation against the role's range | | |
 | Team note on a candidate | Confirm or dispute a reported hire | Placement ledger with guarantee status |
 | Intro request, then interview times | Jobs ranked for the student, "I am interested" | Attribution checks |
 | Pipeline with drag and drop | Profile views (a count, never who) | Company approval |
@@ -97,6 +99,15 @@ Languages: Uzbek, Russian, English. The choice is stored per user (`profiles.lan
 The formula is shown to employers on every profile, so the ranking can be questioned.
 Code: `src/data/logic.ts`.
 
+### What the profile charts show
+
+Six measures share one 0 to 100 scale so they can sit on one radar: academics (GPA out of 4),
+skills (average verified level out of 5), projects and campus activity (their parts of the Digital CV
+score, out of 280 and 160), English (IELTS out of 9) and attendance. The dashed outline is the average
+of the student's school. The same record feeds GPA by semester, the student's place among the school's
+Digital CV scores, and a level for each skill. Code: `src/data/insight.ts`, `src/ui/charts.tsx`.
+In the prototype this record is generated; in production it comes from the registrar feed (migration 0003).
+
 ## 6. How the fee is protected
 
 The fee only works if hires cannot quietly move off the platform. Controls, in order of strength:
@@ -117,7 +128,7 @@ ever sign in; `students.user_id` links a login later, by email, through `claim_s
 
 Tables: `profiles`, `companies`, `company_members`, `plans`, `subscriptions`, `students`, `skills`,
 `student_skills`, `projects`, `job_roles`, `intros`, `pipeline`, `placements`, `invoices`, `audit_log`,
-`interviews`, `role_interest`, `candidate_notes`, `profile_views`.
+`interviews`, `role_interest`, `candidate_notes`, `profile_views`, `student_terms`.
 
 Rules enforced in the database, not in the browser:
 
@@ -139,9 +150,11 @@ Rules enforced in the database, not in the browser:
 | Only students mark interest in a role | `set_interest()` |
 | Team notes are visible to that company only | RLS on `candidate_notes` |
 | A student sees how many companies viewed the profile, never which | `my_view_count()` |
+| Semester grades, skill levels and score parts are written by the registrar feed, never by the student | RLS on `student_terms`, `sskills_self`, guard trigger |
+| School averages are aggregates over opted-in students; a semester average needs three students | `cohort_stats()`, `cohort_terms()`, `school_scores()` |
 
 `npm run check:sql` applies the migrations to an in-process Postgres and plays a full hire with
-46 assertions on these rules, including the seed and `supabase/verify.sql`. The same verify script
+61 assertions on these rules, including the seed and `supabase/verify.sql`. The same verify script
 ran on the deployed database and passed 14 of 14.
 
 ## 8. Open decisions
