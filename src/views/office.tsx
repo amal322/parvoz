@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { COMPANY, FUNNEL, OUTCOMES, PLANS, REVENUE, TODAY } from '../data/seed'
+import { COMPANY, FUNNEL, JOBS, OUTCOMES, PLANS, REVENUE, TODAY } from '../data/seed'
+import { skillGap } from '../data/insight'
+import { GapChart } from '../ui/charts'
 import { FEE_SALARIES, GUARANTEE_DAYS, daysBetween, type Student } from '../data/logic'
 import { reviewCompany, toast, useStore } from '../data/store'
 import { useT } from '../i18n'
@@ -95,6 +97,10 @@ export function Outcomes() {
   const tot = OUTCOMES.reduce((a, o) => ({ grads: a.grads + o.grads, employed: a.employed + o.employed, via: a.via + o.via }), { grads: 0, employed: 0, via: 0 })
   const pct = (a: number, b: number) => Math.round((a / b) * 100)
   const top = [...companies.filter((c) => c.status === 'approved')].sort((a, b) => b.hires - a.hires)
+  const students = useStore((s) => s.students)
+  const ownRoles = useStore((s) => s.roles)
+  const openRoles = [...ownRoles, ...JOBS]
+  const gap = skillGap(students, openRoles)
   return (
     <>
       <div className="page-head"><Title as="h1" a={t('out.a')} b={t('out.b')} /><p>{t('out.sub')}</p></div>
@@ -117,6 +123,10 @@ export function Outcomes() {
             </tbody>
           </table>
         </div>
+      </section>
+      <section className="panel">
+        <div className="panel-head"><div><h2>{t('gap.t')}</h2><p>{t('gap.d')}</p></div></div>
+        <GapChart rows={gap} roles={openRoles.length} students={students.length} />
       </section>
       <section className="panel">
         <div className="panel-head"><h2>{t('out.top.t')}</h2></div>
