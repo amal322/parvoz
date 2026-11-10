@@ -1,0 +1,7 @@
+node_modules
+dist
+dist-single
+.env.local
+.env
+# generated on install by scripts/gen-portraits.mjs
+src/data/portraits.ts
