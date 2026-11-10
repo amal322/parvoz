@@ -1,10 +1,12 @@
 // Builds supabase/seed.sql from the same demo data the prototype uses (src/data/seed.ts).
 import { writeFileSync } from 'node:fs'
 import { COMPANY, JOBS, OTHER_COMPANIES, ROLES, STUDENTS } from '../src/data/seed'
+import { insightOf } from '../src/data/insight'
 import { translate } from '../src/i18n'
 
 const en = (k: string) => translate('en', k)
 const q = (s: string | number | null) => (s === null ? 'null' : typeof s === 'number' ? String(s) : `'${s.replace(/'/g, "''")}'`)
+const nums = (xs: number[]) => `'{${xs.join(',')}}'`
 const arr = (xs: string[]) => `'{${xs.map((x) => (/[ ,()/]/.test(x) ? `"${x}"` : x)).join(',')}}'`
 const SCHOOL = { eng: 'engineering', bus: 'business', med: 'medical', den: 'dental' } as const
 const EMP = { full: 'full_time', intern: 'internship', part: 'part_time' } as const
@@ -14,10 +16,12 @@ const count: Record<string, number> = {}
 const students = STUDENTS.map((s) => {
   count[s.school] = (count[s.school] ?? 0) + 1
   const [first, last] = s.name.toLowerCase().split(' ')
+  const ins = insightOf(s)
   return `  (${[
     q(`${PREFIX[s.school]}-${String(count[s.school]).padStart(4, '0')}`), q(s.name), q(SCHOOL[s.school]), q(en('prog.' + s.program)), s.year, s.gradYear,
     s.gpa.toFixed(2), s.attendance, s.cvScore, arr(s.openTo.map((o) => EMP[o])), q(s.availableFrom), s.salary, q(s.english), arr(s.langs),
     q((s.female ? 'f' : 'm') + s.portrait), q(en('hl.' + s.program)), q(`${first[0]}.${last}@students.example`), arr(s.skills),
+    nums(s.skills.map((k) => ins.levels[k])), ins.score.acad, ins.score.proj, ins.score.act, nums(ins.terms.map((t) => t.gpa)), nums(ins.terms.map((t) => t.att)),
   ].join(', ')})`
 })
 
@@ -48,7 +52,8 @@ where not exists (select 1 from subscriptions s where s.company_id = c.id);
 
 create temp table demo_students (
   student_no text, full_name text, school text, program text, year_of_study int, grad_year int, gpa numeric, attendance_pct int, cv_score int,
-  open_to text[], available_from date, salary bigint, english text, langs text[], portrait text, headline text, email text, skills text[]
+  open_to text[], available_from date, salary bigint, english text, langs text[], portrait text, headline text, email text, skills text[],
+  skill_levels int[], score_academic int, score_projects int, score_activity int, term_gpa numeric[], term_att int[]
 ) on commit drop;
 insert into demo_students values
 ${students.join(',\n')};
@@ -68,6 +73,27 @@ from demo_students d
 join students s on s.student_no = d.student_no
 cross join lateral unnest(d.skills) as u (name)
 join skills k on k.name = u.name
+on conflict do nothing;
+
+-- the record behind the profile charts (migration 0003); fills only what is still empty
+update students s
+set score_academic = d.score_academic, score_projects = d.score_projects, score_activity = d.score_activity
+from demo_students d
+where s.student_no = d.student_no and s.score_academic is null;
+
+update student_skills ss
+set level = u.level
+from demo_students d
+join students s on s.student_no = d.student_no
+cross join lateral unnest(d.skills, d.skill_levels) as u (name, level)
+join skills k on k.name = u.name
+where ss.student_id = s.id and ss.skill_id = k.id and ss.level is null;
+
+insert into student_terms (student_id, term, gpa, attendance_pct)
+select s.id, u.term, u.gpa, u.att
+from demo_students d
+join students s on s.student_no = d.student_no
+cross join lateral unnest(d.term_gpa, d.term_att) with ordinality as u (gpa, att, term)
 on conflict do nothing;
 
 create temp table demo_projects (program text, title text, summary text, graded_by text) on commit drop;
