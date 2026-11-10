@@ -22,6 +22,7 @@ const fam = {
   st: ['shortlisted', 'intro', 'interview', 'offer', 'hired'], ind: ['software', 'finance', 'healthcare', 'manufacturing', 'retail'], lang: ['uz', 'ru', 'en'],
   fun: [0, 1, 2, 3, 4, 5], inv: ['paid', 'due', 'scheduled', 'void', 'sub', 'half1', 'half2'], role: ['company', 'student', 'office', 'r1', 'r2', 'r3', 'j1', 'j2', 'j3', 'j4'],
   n: ['talent', 'pipeline', 'roles', 'billing', 'inbox', 'jobs', 'me', 'overview', 'outcomes', 'placements', 'companies'],
+  ax: ['acad', 'skills', 'proj', 'act', 'eng', 'att'], lvl: [1, 2, 3, 4, 5], gap: ['short', 'tight', 'ok'],
 }
 const need = Object.entries(fam).flatMap(([f, xs]) => xs.map((x) => `${f}.${x}`))
 for (const p of fam.prog) need.push(`hl.${p}`, `pj.${p}.1.t`, `pj.${p}.1.d`, `pj.${p}.2.t`, `pj.${p}.2.d`)
