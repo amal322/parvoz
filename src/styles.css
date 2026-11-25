@@ -782,7 +782,7 @@ html.booting .table-card { animation-play-state: paused; }
 .cursor.is-big i { transform: scale(1.7); background: color-mix(in srgb, var(--ink) 14%, transparent); }
 
 .backed { display: inline-flex; align-items: center; gap: 12px; text-align: left; }
-.backed img { display: block; width: 46px; height: 46px; flex: none; }
+.backed img { display: block; width: 46px; height: 46px; flex: none; border-radius: 22%; }
 .backed small { display: block; margin-bottom: 3px; font: 700 10px/1 var(--sans); text-transform: uppercase; letter-spacing: .09em; color: var(--ink-2); }
 .backed b { display: block; font: 800 14px/1.1 var(--sans); text-transform: uppercase; letter-spacing: -.01em; }
 .foot .backed small { color: inherit; opacity: .8; }
