@@ -772,11 +772,15 @@ html.booting .table-card { animation-play-state: paused; }
 .hb-dot { fill: var(--paper); stroke: var(--ink); stroke-width: 2.5; }
 .hb-label { font: 600 15px var(--sans); fill: var(--ink-2); } .hb-val { font: 800 26px var(--display); fill: var(--ink); }
 .heroB-foot, .hb-id { display: flex; align-items: center; }
-.hb-id { gap: 12px; animation: ag-in .6s var(--ease); min-width: 0; }
-.hb-id .portrait { flex: none; width: 54px; } .hb-id b { display: block; font: 800 15px/1.15 var(--sans); text-transform: uppercase; } .hb-id small { font-size: 13px; color: var(--ink-2); }
-.hb-cast { display: flex; gap: 6px; }
+.hb-id { gap: 12px; animation: ag-in .6s var(--ease); flex: 1 1 0; min-width: 0; height: 54px; }
+.hb-id > span { min-width: 0; }
+.hb-id .portrait { flex: none; width: 54px; } .hb-id b { display: block; font: 800 15px/1.15 var(--sans); text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .hb-id small { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-size: 13px; line-height: 1.3; color: var(--ink-2); }
+.hb-cast { display: flex; gap: 6px; flex: none; }
 .hb-cast button { width: 42px; padding: 0; opacity: .4; transition: opacity .3s, box-shadow .3s; } .hb-cast button.is-on, .hb-cast button:hover { opacity: 1; } .hb-cast .is-on { box-shadow: 0 0 0 2px var(--ink); }
-.heroB-meta { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+/* the row under the radar keeps one size for every student: the thumbnails are hovered, so they must not move */
+.heroB-stage { container-type: inline-size; }
+.heroB-meta { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+@container (max-width: 559px) { .heroB-meta { flex-direction: column; align-items: stretch; gap: 14px; } .hb-id { flex: none; } }
 .cursor { position: fixed; left: 0; top: 0; z-index: 70; pointer-events: none; opacity: 0; transition: opacity .3s; } .cursor.is-on { opacity: 1; }
 .cursor i { display: block; width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%; border: 1.5px solid var(--ink); transition: transform .25s var(--ease), background .25s; }
 .cursor.is-big i { transform: scale(1.7); background: color-mix(in srgb, var(--ink) 14%, transparent); }
