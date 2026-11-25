@@ -41,7 +41,7 @@ registrar-verified records, and pay three gross monthly salaries for each hire.
 npm install          # also draws the placeholder portraits into src/data/portraits.ts
 npm run dev          # prototype on demo data
 npm run check:sql    # access rules, interviews, fee maths, seed, verify script
-npm run check:i18n   # 691 keys in three languages
+npm run check:i18n   # 687 keys in three languages
 npm run check:agent  # the agent reads requests in three languages and ranks as expected
 npm run build        # site in dist/
 npm run seed:sql     # rebuild supabase/seed.sql from src/data/seed.ts

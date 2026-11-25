@@ -271,8 +271,6 @@ export function Landing() {
               <button className="ulink" onClick={startTour}><Icon name="play" size={14} />{t('hero.tour')}</button>
               <button className="ulink" onClick={() => scrollTo('fee')}>{t('hero.cta2')}<Icon name="down" size={16} /></button>
             </div>
-            <Backed />
-            <p className="hero-note">{t('hero.demo')}</p>
           </Reveal>
         </div>
         <HeroCards />
@@ -297,7 +295,7 @@ export function Landing() {
           </div>
           <div className="foot-base">
             <span className="wordmark-big" aria-hidden="true">Parvoz</span>
-            <div className="foot-meta"><Backed /><p>{t('foot.note')}<br />{t('foot.portraits')}</p></div>
+            <Backed />
             <LangSwitch />
           </div>
         </div>

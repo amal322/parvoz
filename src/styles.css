@@ -786,7 +786,7 @@ html.booting .table-card { animation-play-state: paused; }
 .backed small { display: block; margin-bottom: 3px; font: 700 10px/1 var(--sans); text-transform: uppercase; letter-spacing: .09em; color: var(--ink-2); }
 .backed b { display: block; font: 800 14px/1.1 var(--sans); text-transform: uppercase; letter-spacing: -.01em; }
 .foot .backed small { color: inherit; opacity: .8; }
-.foot-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; }
+.foot .backed img { width: 54px; height: 54px; } .foot .backed b { font-size: 15px; }
 .foot { padding-bottom: 76px; }
 .heroB .backed { margin-bottom: 14px; }
 

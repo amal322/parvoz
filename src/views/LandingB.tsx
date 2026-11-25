@@ -5,7 +5,7 @@ import { STUDENTS } from '../data/seed'
 import type { School, Student } from '../data/logic'
 import { enter } from '../data/store'
 import { useT } from '../i18n'
-import { Backed, Btn, Icon, Portrait, reduceMotion } from '../ui/bits'
+import { Btn, Icon, Portrait, reduceMotion } from '../ui/bits'
 import { startTour } from '../ui/tour'
 
 // six students whose shapes differ most: for each school, the one with the widest spread between measures
@@ -70,8 +70,6 @@ export function HeroB() {
             <Btn onClick={() => enter('company')}>{t('hero.cta')}</Btn>
             <button className="hb-play" onClick={startTour}><span><Icon name="play" size={13} /></span>{t('hero.tour')}</button>
           </div>
-          <Backed />
-          <p className="hero-note">{t('hero.demo')}</p>
         </div>
 
         <div className="heroB-stage" onMouseEnter={() => setHold(true)} onMouseLeave={() => setHold(false)}>

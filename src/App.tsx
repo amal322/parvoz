@@ -69,7 +69,6 @@ function Shell({ viewer, route }: { viewer: Viewer; route: string }) {
               <small>{viewer === 'company' ? COMPANY.name : viewer === 'student' ? t('prog.' + me.program) : 'Central Asian University'}</small>
             </span>
           </div>
-          <span className="demo-tag">{t('l.demo')}</span>
         </div>
         <View />
       </main>

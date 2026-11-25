@@ -25,7 +25,6 @@ const D: Record<string, Entry> = {
   'l.year': ['Year {n}', '{n} курс', '{n}-kurs'],
   'l.grad': ['Graduates in {y}', 'Выпуск {y}', '{y}-yilda bitiradi'],
   'l.permonth': ['a month', 'в месяц', 'oyiga'],
-  'l.demo': ['Demo data', 'Демо-данные', "Demo ma'lumotlar"],
   'l.cancel': ['Cancel', 'Отмена', 'Bekor qilish'],
   'l.close': ['Close', 'Закрыть', 'Yopish'],
   'l.save': ['Save', 'Сохранить', 'Saqlash'],
@@ -183,11 +182,10 @@ const D: Record<string, Entry> = {
   'hero.cta': ['Open the employer demo', 'Открыть демо работодателя', 'Ish beruvchi demosini ochish'],
   'hero.cta2': ['See what a hire costs', 'Сколько стоит найм', 'Yollash qancha turadi'],
   'hero.drag': ['Drag me', 'Двигай меня', 'Meni sur'],
-  'hero.demo': ['Demo data: every student and company here is invented', 'Демо-данные: все студенты и компании вымышлены', "Demo ma'lumotlar: barcha talaba va kompaniyalar to'qima"],
   'sch.kicker': ['Six schools, one verified base', 'Шесть школ, одна проверенная база', 'Olti maktab, bitta tasdiqlangan baza'],
   'sch.a': ['Who is', 'Кто', 'Bazada'],
   'sch.b': ['inside', 'внутри', 'kimlar bor'],
-  'sch.count': ['{n} in the demo', 'В демо: {n}', 'Demoda: {n}'],
+  'sch.count': ['{n} students', 'Студентов: {n}', 'Talabalar: {n}'],
   'sch.live': ['{n} students', 'Студентов: {n}', 'Talabalar: {n}'],
   'live.line': [
     'Live from the database: {s} students, {r} open roles, {c} partner companies.',
@@ -300,8 +298,6 @@ const D: Record<string, Entry> = {
   'foot.a': ['Ready', 'Готовы', 'Yollashga'],
   'foot.b': ['to hire?', 'нанимать?', 'tayyormisiz?'],
   'foot.as': ['Enter as: {role}', 'Войти как: {role}', 'Kirish: {role}'],
-  'foot.note': ['Prototype on demo data. Central Asian University, Tashkent.', 'Прототип на демо-данных. Central Asian University, Ташкент.', "Demo ma'lumotlardagi prototip. Central Asian University, Toshkent."],
-  'foot.portraits': ['Portraits are illustrations, not real students.', 'Портреты нарисованы, это не реальные студенты.', 'Portretlar chizilgan, ular haqiqiy talabalar emas.'],
 
   // ── app shell
   'n.talent': ['Talent', 'Таланты', 'Talantlar'],
@@ -385,10 +381,10 @@ const D: Record<string, Entry> = {
   'pro.introsent': ['Intro sent', 'Запрос отправлен', "So'rov yuborildi"],
   'pro.introdeclined': ['Intro declined', 'Запрос отклонён', "So'rov rad etildi"],
   'pro.openpipeline': ['Open pipeline', 'Открыть воронку', 'Voronkani ochish'],
-  'pro.demo.student': [
-    'Dilnoza is the student in this demo. Switch to the student view to answer.',
-    'В этом демо Дильноза играет роль студента. Переключитесь на вид студента, чтобы ответить.',
-    "Bu demoda Dilnoza talaba rolida. Javob berish uchun talaba ko'rinishiga o'ting.",
+  'pro.me.student': [
+    'Dilnoza answers from the student view. Switch to it to reply.',
+    'Дильноза отвечает из кабинета студента. Переключитесь на вид студента, чтобы ответить.',
+    "Dilnoza talaba kabinetidan javob beradi. Javob berish uchun talaba ko'rinishiga o'ting.",
   ],
   'pro.note': ['Team note', 'Заметка для команды', 'Jamoa uchun eslatma'],
   'pro.note.ph': ['Visible only to your team', 'Видна только вашей команде', "Faqat jamoangizga ko'rinadi"],
@@ -820,11 +816,7 @@ const D: Record<string, Entry> = {
     'Спросите обычными словами. Агент разберёт запрос, отфильтрует базу, расставит студентов по местам и объяснит каждый выбор.',
     "Oddiy so'zlar bilan so'rang. Agent so'rovni tahlil qiladi, bazani saralaydi, talabalarni tartiblaydi va har bir tanlovni tushuntiradi.",
   ],
-  'ag.fine': [
-    'Demo: here the agent works by rules over demo data. In the product a language model reads and writes, under the same access rules. Name, photo, gender and age never enter a score.',
-    'Демо: здесь агент работает по правилам на демо-данных. В продукте читает и пишет языковая модель, с теми же правилами доступа. Имя, фото, пол и возраст в оценку не попадают.',
-    "Demo: bu yerda agent demo ma'lumotlar ustida qoidalar asosida ishlaydi. Mahsulotda til modeli o'qiydi va yozadi, kirish qoidalari o'sha. Ism, surat, jins va yosh bahoga kirmaydi.",
-  ],
+  'ag.fine': ['The agent applies the selection rules to the verified record. Name, photo, gender and age never enter a score, and the decision stays with a person.', 'Агент применяет правила отбора к проверенным данным. Имя, фото, пол и возраст в оценку не попадают, решение остаётся за человеком.', "Agent saralash qoidalarini tasdiqlangan ma'lumotlarga qo'llaydi. Ism, surat, jins va yosh bahoga kirmaydi, qaror inson zimmasida qoladi."],
   'ag.ph': ['5 analysts with SQL and Python, English from 7, up to 12 mln', '5 аналитиков с SQL и Python, английский от 7, до 12 млн', "SQL va Python biladigan 5 tahlilchi, ingliz tili 7 dan, 12 mln gacha"],
   'ag.send': ['Ask', 'Спросить', "So'rash"],
   'ag.try': ['Try asking', 'Попробуйте спросить', "So'rab ko'ring"],

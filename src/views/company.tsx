@@ -328,7 +328,7 @@ export function ProfileBody({ s, role, card, asStudent }: { s: Student; role?: R
             <>
               <Pill tone={card.intro === 'accepted' ? 'ok' : card.intro === 'declined' ? 'warn' : 'blue'}>{card.intro === 'accepted' ? t('st.' + card.stage) : card.intro === 'declined' ? t('pro.introdeclined') : t('pro.introsent')}</Pill>
               <Btn kind="line" onClick={() => go('pipeline')}>{t('pro.openpipeline')}</Btn>
-              {s.id === ME_STUDENT && card.intro === 'requested' && <small>{t('pro.demo.student')}</small>}
+              {s.id === ME_STUDENT && card.intro === 'requested' && <small>{t('pro.me.student')}</small>}
             </>
           )}
         </footer>
