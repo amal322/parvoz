@@ -53,7 +53,7 @@ npm run seed:sql     # rebuild supabase/seed.sql from src/data/seed.ts
 
 **Database.** Supabase project `cau-pgc`, schema `parvoz` (it shares the project with the CAU problem
 registry and does not touch its tables). Applied in this order through the SQL editor:
-`0001_init.sql`, `0002_features.sql`, `0003_insights.sql`, `0004_six_schools.sql`, `seed.sql`, then `verify.sql` to check (14 of 14 passed).
+`0001_init.sql`, `0002_features.sql`, `0003_insights.sql`, `0004_six_schools.sql`, `0005_plan_prices.sql`, `seed.sql`, then `verify.sql` to check (14 of 14 passed).
 
 **Connecting the two.** Two switches, both outside the repository:
 

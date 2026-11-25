@@ -178,6 +178,9 @@ check('0003 applies on top of existing data', Number((await one('select count(*)
 await sql(readFileSync(new URL('../supabase/migrations/0004_six_schools.sql', import.meta.url), 'utf8'))
 await sql('set search_path = parvoz')
 check('0004 adds the two new schools', (await db.query(`select unnest(enum_range(null::school))::text as s`)).rows.length === 6)
+await sql(readFileSync(new URL('../supabase/migrations/0005_plan_prices.sql', import.meta.url), 'utf8'))
+await sql('set search_path = parvoz')
+check('0005 sets the plan prices from 500 000 a month', (await db.query(`select monthly_price_uzs::int as p from plans order by 1`)).rows.map((r) => r.p).join() === '500000,1500000,4000000')
 
 // demo data and the live-check script
 const seed = readFileSync(new URL('../supabase/seed.sql', import.meta.url), 'utf8')

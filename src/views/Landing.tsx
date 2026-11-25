@@ -193,8 +193,7 @@ function Record() {
 }
 
 function Plans() {
-  const { t, dec, lang, cur } = useT()
-  const unit = (lang === 'en' ? 'M ' : lang === 'ru' ? 'млн ' : 'mln ') + cur
+  const { t, priceParts } = useT()
   const yn = (v: boolean) => (v ? <Icon name="check" /> : <span className="dash" aria-label={t('l.no')}>–</span>)
   return (
     <section className="sec sec-black" id="plans">
@@ -205,7 +204,7 @@ function Plans() {
             <Reveal key={p.code} delay={i * 90} className="plan">
               <h3>{p.name}</h3>
               <p className="plan-note">{t(`plan.${p.code}.note`)}</p>
-              <p className="plan-price"><span className="t-serif">{dec(p.price / 1e6)}</span><small>{unit}<br />{t('l.permonth')}</small></p>
+              <p className="plan-price"><span className="t-serif">{priceParts(p.price)[0]}</span><small>{priceParts(p.price)[1]}<br />{t('l.permonth')}</small></p>
               <dl>
                 <div><dt>{t('plans.seats')}</dt><dd>{p.seats ?? t('l.unlimited')}</dd></div>
                 <div><dt>{t('plans.intros')}</dt><dd>{p.intros ?? t('l.unlimited')}</dd></div>

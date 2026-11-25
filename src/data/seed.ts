@@ -174,9 +174,9 @@ export interface Plan {
 }
 
 export const PLANS: Plan[] = [
-  { code: 'scout', name: 'Scout', price: 2.4e6, seats: 1, intros: 10, roles: 1 },
-  { code: 'team', name: 'Team', price: 6.9e6, seats: 5, intros: 40, roles: 10 },
-  { code: 'partner', name: 'Campus Partner', price: 18e6, seats: null, intros: null, roles: null },
+  { code: 'scout', name: 'Scout', price: 0.5e6, seats: 1, intros: 10, roles: 1 },
+  { code: 'team', name: 'Team', price: 1.5e6, seats: 5, intros: 40, roles: 10 },
+  { code: 'partner', name: 'Campus Partner', price: 4e6, seats: null, intros: null, roles: null },
 ]
 
 export const OTHER_COMPANIES = [
@@ -191,9 +191,9 @@ export const OTHER_COMPANIES = [
 
 // twelve months of platform revenue for the career office view, UZS millions (Dec 2025 to Nov 2026)
 export const REVENUE = [
-  { m: '2025-12', sub: 38, fee: 0 }, { m: '2026-01', sub: 52, fee: 31 }, { m: '2026-02', sub: 61, fee: 48 }, { m: '2026-03', sub: 74, fee: 66 },
-  { m: '2026-04', sub: 88, fee: 54 }, { m: '2026-05', sub: 97, fee: 93 }, { m: '2026-06', sub: 118, fee: 214 }, { m: '2026-07', sub: 131, fee: 302 },
-  { m: '2026-08', sub: 139, fee: 268 }, { m: '2026-09', sub: 152, fee: 187 }, { m: '2026-10', sub: 164, fee: 142 }, { m: '2026-11', sub: 171, fee: 96 },
+  { m: '2025-12', sub: 10, fee: 0 }, { m: '2026-01', sub: 14, fee: 31 }, { m: '2026-02', sub: 17, fee: 48 }, { m: '2026-03', sub: 20, fee: 66 },
+  { m: '2026-04', sub: 24, fee: 54 }, { m: '2026-05', sub: 27, fee: 93 }, { m: '2026-06', sub: 32, fee: 214 }, { m: '2026-07', sub: 36, fee: 302 },
+  { m: '2026-08', sub: 38, fee: 268 }, { m: '2026-09', sub: 42, fee: 187 }, { m: '2026-10', sub: 45, fee: 142 }, { m: '2026-11', sub: 47, fee: 96 },
 ]
 
 export const FUNNEL = [1284, 2140, 1498, 902, 311, 214]

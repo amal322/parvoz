@@ -5,6 +5,8 @@ import { flushSync } from 'react-dom'
 import { COMPANY, JOBS, ME_STUDENT, OTHER_COMPANIES, PLANS, ROLES, STUDENTS, TODAY } from './seed'
 import { addDays, feePlan, matchScore, upcomingSlots, type Employment, type Role, type Student } from './logic'
 
+const TEAM_PRICE = PLANS.find((p) => p.code === 'team')!.price
+
 export type Lang = 'uz' | 'ru' | 'en'
 export type Viewer = 'company' | 'student' | 'office'
 export type Stage = 'shortlisted' | 'intro' | 'interview' | 'offer' | 'hired'
@@ -101,10 +103,10 @@ function initial(): State {
     cards,
     placements: [{ id: 'p1', studentId: a[0], company: COMPANY.name, roleId: 'r1', salary: 12e6, start, status: 'active' }],
     invoices: [
-      { id: 'i1', kind: 'sub', month: '2026-09', amount: 6.9e6, due: '2026-09-05', status: 'paid' },
-      { id: 'i2', kind: 'sub', month: '2026-10', amount: 6.9e6, due: '2026-10-05', status: 'paid' },
+      { id: 'i1', kind: 'sub', month: '2026-09', amount: TEAM_PRICE, due: '2026-09-05', status: 'paid' },
+      { id: 'i2', kind: 'sub', month: '2026-10', amount: TEAM_PRICE, due: '2026-10-05', status: 'paid' },
       { id: 'i3', kind: 'half1', amount: fp.firstHalf, due: fp.firstDue, status: 'paid', placementId: 'p1' },
-      { id: 'i4', kind: 'sub', month: '2026-11', amount: 6.9e6, due: '2026-11-05', status: 'paid' },
+      { id: 'i4', kind: 'sub', month: '2026-11', amount: TEAM_PRICE, due: '2026-11-05', status: 'paid' },
       { id: 'i5', kind: 'half2', amount: fp.secondHalf, due: fp.secondDue, status: 'scheduled', placementId: 'p1' },
     ],
     plan: 'team',

@@ -973,6 +973,7 @@ const MONTHS: Record<Lang, { short: string[]; long: string[]; wd: string[] }> = 
   },
 }
 const MLN: Record<Lang, string> = { en: 'M', ru: ' млн', uz: ' mln' }
+const THS: Record<Lang, string> = { en: 'K', ru: ' тыс.', uz: ' ming' }
 
 export type Vars = Record<string, string | number>
 export function translate(lang: Lang, key: string, vars?: Vars): string {
@@ -993,6 +994,8 @@ export function makeT(lang: Lang) {
     return lang === 'en' ? s : s.replace('.', ',')
   }
   const t = (key: string, vars?: Vars) => translate(lang, key, vars)
+  // below a million the amount is said in thousands: 500K · 500 тыс. · 500 ming
+  const short = (n: number) => (n !== 0 && Math.abs(n) < 1e6 ? dec(Math.round(n / 1e3)) + THS[lang] : dec(n / 1e6) + MLN[lang])
   // own month and weekday names: browsers do not all ship Uzbek locale data
   const M = MONTHS[lang], d = (iso: string) => utc(iso)
   const day = (x: Date) => (lang === 'uz' ? `${x.getUTCDate()}-${M.short[x.getUTCMonth()]}` : `${x.getUTCDate()} ${M.short[x.getUTCMonth()]}`)
@@ -1002,9 +1005,11 @@ export function makeT(lang: Lang) {
     /** 12 000 000 UZS */
     money: (n: number) => `${group(n)} ${CUR[lang]}`,
     /** 12M · 12 млн · 12 mln */
-    mln: (n: number) => dec(n / 1e6) + MLN[lang],
+    mln: short,
     /** 12M UZS · 12 млн сум · 12 mln soʻm */
-    mlnCur: (n: number) => `${dec(n / 1e6)}${MLN[lang]} ${CUR[lang]}`,
+    mlnCur: (n: number) => `${short(n)} ${CUR[lang]}`,
+    /** the figure and its unit apart, for prices set large: ['500', 'тыс. сум'] */
+    priceParts: (n: number): [string, string] => (n < 1e6 ? [dec(n / 1e3), `${THS[lang].trim()} ${CUR[lang]}`] : [dec(n / 1e6), `${MLN[lang].trim()} ${CUR[lang]}`]),
     cur: CUR[lang],
     dec,
     /** 15 Jun 2027 · 15 июн 2027 · 15-iyn 2027 */

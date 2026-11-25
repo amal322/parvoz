@@ -14,8 +14,8 @@ function RevenueChart() {
   const { t, monthShort, month, mln, cur } = useT()
   const [table, setTable] = useState(false)
   const [hover, setHover] = useState<number | null>(null)
-  const max = 500
-  const ticks = [0, 100, 200, 300, 400, 500]
+  const max = 400
+  const ticks = [0, 100, 200, 300, 400]
   const m = (n: number) => mln(n * 1e6)
   return (
     <section className="panel">
@@ -61,7 +61,7 @@ function RevenueChart() {
 }
 
 export function Overview() {
-  const { t, mlnCur, dec, cur } = useT()
+  const { t, mln, mlnCur, dec, cur } = useT()
   const pending = useStore((s) => s.companies.filter((c) => c.status === 'pending').length)
   const top = Math.max(...FUNNEL)
   return (
@@ -69,7 +69,7 @@ export function Overview() {
       <div className="page-head"><Title as="h1" a={t('ov.a')} b={t('ov.b')} /><p>{t('ov.sub')}</p></div>
       <dl className="kpis">
         <div><dt>{t('kpi.companies')}</dt><dd className="t-serif">41</dd><small>{t('kpi.pending', { n: pending })}</small></div>
-        <div><dt>{t('kpi.subs')}</dt><dd className="t-serif">{t('l.bn', { n: dec(Math.round(subsYtd / 10) / 100) })}<small> {cur}</small></dd><small>{t('kpi.subs.d', { n: mlnCur(171e6) })}</small></div>
+        <div><dt>{t('kpi.subs')}</dt><dd className="t-serif">{mln(subsYtd * 1e6)}<small> {cur}</small></dd><small>{t('kpi.subs.d', { n: mlnCur(REVENUE[REVENUE.length - 1].sub * 1e6) })}</small></div>
         <div><dt>{t('kpi.fees')}</dt><dd className="t-serif">{t('l.bn', { n: dec(Math.round(feesYtd / 10) / 100) })}<small> {cur}</small></dd><small>{t('kpi.fees.d')}</small></div>
         <div><dt>{t('kpi.hires')}</dt><dd className="t-serif">214</dd><small>{t('kpi.hires.d', { s: mlnCur(9.5e6) })}</small></div>
       </dl>

@@ -83,9 +83,12 @@ Languages: Uzbek, Russian, English. The choice is stored per user (`profiles.lan
 
 **Subscription** (per month, before VAT; a proposal to calibrate with five to ten pilot companies):
 
+The entry price is set low on purpose, at 500K UZS a month: the subscription only opens the base, and
+the money is in the placement fee.
+
 | | Scout | Team | Campus Partner |
 |---|---|---|---|
-| Price | 2.4M UZS | 6.9M UZS | 18M UZS, billed yearly |
+| Price | 500K UZS | 1.5M UZS | 4M UZS, billed yearly |
 | Seats | 1 | 5 | Unlimited |
 | Intros per month | 10 | 40 | Unlimited |
 | Open roles | 1 | 10 | Unlimited |
