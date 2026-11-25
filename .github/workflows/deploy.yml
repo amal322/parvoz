@@ -24,6 +24,7 @@ jobs:
           node-version: 22
       - run: npm install
       - run: npm run check:i18n
+      - run: npm run check:agent
       - run: npm run check:sql
       - run: npm run build
         env:

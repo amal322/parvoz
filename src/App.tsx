@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { COMPANY, ME_STUDENT } from './data/seed'
-import { ROUTES, enter, go, studentOf, syncFromHash, useStore, type Viewer } from './data/store'
+import { ROUTES, enter, go, setStyle, studentOf, syncFromHash, useStore, type Viewer } from './data/store'
 import { useT } from './i18n'
 import { Icon, LangSwitch, Portrait, reduceMotion } from './ui/bits'
+import { Tour, startTour } from './ui/tour'
+import { Agent } from './views/agent'
 import { Landing } from './views/Landing'
+import { Cursor } from './views/LandingB'
 import { Billing, Pipeline, ProfileSheet, Roles, Talent } from './views/company'
 import { Inbox, Jobs, MyProfile } from './views/student'
 import { Companies, Outcomes, Overview, Placements } from './views/office'
 
 const VIEWS: Record<string, () => React.JSX.Element> = {
-  talent: Talent, pipeline: Pipeline, roles: Roles, billing: Billing,
+  talent: Talent, agent: Agent, pipeline: Pipeline, roles: Roles, billing: Billing,
   inbox: Inbox, jobs: Jobs, 'my-profile': MyProfile,
   overview: Overview, outcomes: Outcomes, placements: Placements, companies: Companies,
 }
@@ -36,7 +39,10 @@ function Shell({ viewer, route }: { viewer: Viewer; route: string }) {
   return (
     <div className="app">
       <header className="appbar">
-        <button className="wordmark" onClick={() => go('')} aria-label={t('app.exit')}>Parvoz</button>
+        <div className="bar-left">
+          <button className="wordmark" onClick={() => go('')} aria-label={t('app.exit')}>Parvoz</button>
+          <button className="tourbtn" onClick={startTour} aria-label={t('tour.t')} title={t('tour.t')}><Icon name="play" size={13} /></button>
+        </div>
         <nav className="boxnav" aria-label={t('role.' + viewer)}>
           {ROUTES[viewer].map((r) => {
             const key = NAV_KEY[r] ?? r
@@ -120,6 +126,18 @@ function Preloader({ onDone }: { onDone: () => void }) {
 
 const wantsIntro = () => !reduceMotion() && !location.hash.replace('#', '')
 
+/** Two visual directions over the same product. The choice is kept in the address and on the device. */
+function StyleSwitch() {
+  const { t } = useT()
+  const style = useStore((s) => s.style)
+  return (
+    <div className="stylesw" role="radiogroup" aria-label={t('style.t')}>
+      <span aria-hidden="true">{t('style.t')}</span>
+      {(['a', 'b'] as const).map((x) => <button key={x} role="radio" aria-checked={x === style} onClick={() => x !== style && setStyle(x)} aria-label={t('style.' + x)} title={t('style.' + x)}>{x.toUpperCase()}</button>)}
+    </div>
+  )
+}
+
 export function App() {
   const viewer = useStore((s) => s.viewer)
   const route = useStore((s) => s.route)
@@ -131,6 +149,11 @@ export function App() {
     return () => window.removeEventListener('hashchange', syncFromHash)
   }, [])
   useEffect(() => { document.documentElement.lang = lang }, [lang])
+  const style = useStore((s) => s.style)
+  useEffect(() => {
+    document.documentElement.dataset.style = style
+    if (location.hash === '#tour') startTour()
+  }, [])
   const done = React.useCallback(() => {
     document.documentElement.classList.remove('booting')
     setTimeout(() => setBoot(false), 900)
@@ -140,6 +163,9 @@ export function App() {
       {boot && <Preloader onDone={done} />}
       {viewer && <i className="progress" key={route} />}
       {viewer ? <Shell viewer={viewer} route={route} /> : <Landing />}
+      <Tour />
+      <StyleSwitch />
+      {style === 'b' && <Cursor />}
       <Toasts />
     </>
   )

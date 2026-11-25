@@ -23,8 +23,11 @@ export interface Invoice {
 export interface ExternalIntro { id: string; jobId: string; msgKey: string; status: IntroStatus; slots?: string[]; interviewAt?: string }
 export interface Toast { id: number; key: string; vars?: Record<string, string | number>; tone: 'ok' | 'info' | 'warn' }
 
+export type Style = 'a' | 'b'
 export interface State {
   lang: Lang
+  style: Style // two visual directions over the same product
+  tour: number | null // step of the guided walkthrough, null when it is off
   viewer: Viewer | null // null = public landing
   route: string
   profileId: string | null
@@ -45,7 +48,16 @@ export interface State {
   toasts: Toast[]
 }
 
+const param = (k: string) => { try { return new URLSearchParams(location.search).get(k) } catch { return null } }
+function initialStyle(): Style {
+  const q = param('style')
+  if (q === 'a' || q === 'b') return q
+  try { if (localStorage.getItem('parvoz.style') === 'b') return 'b' } catch { /* storage is a convenience only */ }
+  return 'a'
+}
 function initialLang(): Lang {
+  const q = param('lang')
+  if (q === 'uz' || q === 'ru' || q === 'en') return q
   try {
     const saved = localStorage.getItem('parvoz.lang')
     if (saved === 'uz' || saved === 'ru' || saved === 'en') return saved
@@ -78,6 +90,8 @@ function initial(): State {
   const fp = feePlan(12e6, start)
   return {
     lang: initialLang(),
+    style: initialStyle(),
+    tour: null,
     viewer: null,
     route: '',
     profileId: null,
@@ -144,9 +158,16 @@ export function setLang(lang: Lang) {
   document.documentElement.lang = lang
 }
 
+export function setStyle(style: Style) {
+  try { localStorage.setItem('parvoz.style', style) } catch { /* fine without it */ }
+  document.documentElement.dataset.style = style
+  transition(() => set({ style }))
+}
+export const setTour = (tour: number | null) => set({ tour })
+
 const HOME: Record<Viewer, string> = { company: 'talent', student: 'inbox', office: 'overview' }
 export const ROUTES: Record<Viewer, string[]> = {
-  company: ['talent', 'pipeline', 'roles', 'billing'],
+  company: ['talent', 'agent', 'pipeline', 'roles', 'billing'],
   student: ['inbox', 'jobs', 'my-profile'],
   office: ['overview', 'outcomes', 'placements', 'companies'],
 }

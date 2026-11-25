@@ -2,7 +2,9 @@ import React, { useMemo, useRef, useState } from 'react'
 import { PLANS, ROLES, STUDENTS } from '../data/seed'
 import { FEE_SALARIES, GUARANTEE_DAYS, SCHOOLS, matchScore, type School, type Student } from '../data/logic'
 import { useLiveStats } from '../data/live'
-import { enter } from '../data/store'
+import { enter, useStore } from '../data/store'
+import { startTour } from '../ui/tour'
+import { HeroB } from './LandingB'
 import { useT } from '../i18n'
 import { Btn, Icon, LangSwitch, Odometer, Portrait, Reveal, StudentCard, Title } from '../ui/bits'
 
@@ -240,6 +242,7 @@ function Faq() {
 
 export function Landing() {
   const { t } = useT()
+  const style = useStore((s) => s.style)
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   return (
     <div className="landing">
@@ -257,6 +260,7 @@ export function Landing() {
         </div>
       </header>
 
+      {style === 'b' ? <HeroB /> : (
       <section className="hero">
         <div className="wrap hero-in">
           <Title as="h1" className="is-center hero-title" kicker={t('hero.kicker')} a={t('hero.a')} b={t('hero.b')} stack />
@@ -264,6 +268,7 @@ export function Landing() {
             <p className="lede">{t('hero.lede')}</p>
             <div className="hero-cta">
               <Btn onClick={() => enter('company')}>{t('hero.cta')}</Btn>
+              <button className="ulink" onClick={startTour}><Icon name="play" size={14} />{t('hero.tour')}</button>
               <button className="ulink" onClick={() => scrollTo('fee')}>{t('hero.cta2')}<Icon name="down" size={16} /></button>
             </div>
             <p className="hero-note">{t('hero.demo')}</p>
@@ -271,6 +276,7 @@ export function Landing() {
         </div>
         <HeroCards />
       </section>
+      )}
 
       <Marquee />
       <Schools />

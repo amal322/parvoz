@@ -5,6 +5,8 @@ registrar-verified records, and pay three gross monthly salaries for each hire.
 
 - Live site: https://amal322.github.io/parvoz/
 - Interface in Uzbek, Russian and English
+- Two visual styles, switched in the corner: `?style=a` (Paper) and `?style=b` (Night)
+- Guided walkthrough of one hire: open the site with `#tour`
 - System design, benchmarks and open decisions: [docs/SYSTEM.md](docs/SYSTEM.md)
 
 ## What is here
@@ -17,6 +19,10 @@ registrar-verified records, and pay three gross monthly salaries for each hire.
 | `src/views/office.tsx` | Career office: revenue, funnel, graduate outcomes, placement ledger, companies |
 | `src/i18n.ts` | All copy, key → [English, Russian, Uzbek], plus date and money formats |
 | `src/data/logic.ts` | Ranking formula and fee maths |
+| `src/data/agent.ts` | The recruiting agent as rules: reads a request, filters, ranks, explains, reads a vacancy text |
+| `src/views/agent.tsx` | Agent screen and the AI review block on a profile |
+| `src/ui/tour.tsx` | Guided walkthrough: eight steps of one hire, performed in the demo store |
+| `src/views/LandingB.tsx`, `src/style-b.css` | Second visual style: hero and theme |
 | `src/data/insight.ts` | The record behind the charts: semesters, skill levels, score parts, school averages |
 | `src/ui/charts.tsx` | Radar, GPA by semester, place in the school, skill levels, salary fit, skill gap |
 | `src/data/store.ts` | In-memory demo backend. Each action mirrors one database function |
@@ -35,7 +41,8 @@ registrar-verified records, and pay three gross monthly salaries for each hire.
 npm install          # also draws the placeholder portraits into src/data/portraits.ts
 npm run dev          # prototype on demo data
 npm run check:sql    # access rules, interviews, fee maths, seed, verify script
-npm run check:i18n   # 543 keys in three languages
+npm run check:i18n   # 654 keys in three languages
+npm run check:agent  # the agent reads requests in three languages and ranks as expected
 npm run build        # site in dist/
 npm run seed:sql     # rebuild supabase/seed.sql from src/data/seed.ts
 ```
@@ -62,6 +69,7 @@ demo figures. A visitor without an account can read only those counts and the pl
 
 Live: the site, the database schema with demo data, public counts on the landing page.
 Still on the in-memory demo store: the employer, student and career office screens.
+The AI agent runs on rules in the browser; no language model is connected yet (docs/SYSTEM.md, section 9).
 Next: sign-in, then moving those screens to the database one by one (`src/lib/supabase.ts` already
 has the calls). Sign-in will share its users with the registry while both live in one project.
 
@@ -71,4 +79,4 @@ Uzbek copy was written without a native speaker's review and needs one before la
 
 - Portraits: DiceBear "Notionists" by Zoish, CC0. They are illustrations standing in for student
   photos, which will come from the Digital CV.
-- Type: Inter Tight and Oranienbaum, SIL Open Font License.
+- Type: Inter Tight, Oranienbaum and Unbounded, SIL Open Font License.

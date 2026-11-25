@@ -32,6 +32,8 @@ const PATHS: Record<string, string> = {
   outcomes: 'M3 16l5-5 3 3 6-8M13 6h4v4',
   placements: 'M4 10l4 4 8-9',
   companies: 'M4 17V5l6-2v14M10 8l6 2v7M3 17h14',
+  agent: 'M10 2.500l1.900 5.600 5.600 1.900-5.600 1.900L10 17.500l-1.900-5.600L2.500 10l5.600-1.900z',
+  play: 'M6 4l10 6-10 6z',
 }
 export function Icon({ name, size = 18 }: { name: string; size?: number }) {
   return (

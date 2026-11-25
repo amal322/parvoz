@@ -1,5 +1,7 @@
 import { cohortRadar, cohortScores, cohortTerms, insightOf, radarOf, standouts } from '../data/insight'
-import { CohortStrip, Radar, SalaryFit, SkillLevels, TermChart } from '../ui/charts'
+import { analyze, parseVacancy } from '../data/agent'
+import { CohortStrip, Radar, RadarGlyph, SalaryFit, SkillLevels, TermChart } from '../ui/charts'
+import { Analysis } from './agent'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { COMPANY, ME_STUDENT, PLANS, TODAY } from '../data/seed'
 import {
@@ -104,6 +106,7 @@ export function Talent() {
                   <span className="tcard-sub">{t('prog.' + s.program)}, {t('l.year', { n: s.year })}</span>
                   <span className="tags">{s.skills.slice(0, 3).map((k) => <span key={k} className={'tag' + (role.skills.includes(k) ? ' tag-hit' : '')}>{k}</span>)}</span>
                   <span className="tcard-stats"><span><b>{s.gpa.toFixed(2)}</b> GPA</span><span><b>{s.attendance}%</b> {t('l.attendance').toLowerCase()}</span></span>
+                  <span className={'tcard-glyph sch-' + s.school}><RadarGlyph values={radarOf(s)} size={38} /></span>
                 </button>
                 <div className="tcard-act">
                   {card ? <Pill tone={card.stage === 'hired' ? 'ok' : 'blue'}>{t('st.' + card.stage)}</Pill> : <Btn kind="line" small icon="plus" onClick={() => shortlist(s.id)}>{t('tal.shortlist')}</Btn>}
@@ -250,6 +253,14 @@ export function ProfileBody({ s, role, card, asStudent }: { s: Student; role?: R
               </li>
             ))}
           </ul>
+        </section>
+      )}
+
+      {role && !asStudent && (
+        <section className="ai-sec">
+          <h3><Icon name="agent" size={15} />{t('ai.t')}</h3>
+          <p className="sec-note">{t('ai.d')}</p>
+          <Analysis a={analyze(s, role, all)} program={s.program} />
         </section>
       )}
 
@@ -488,6 +499,18 @@ export function Roles() {
   const [employment, setEmployment] = useState<Employment>('full')
   const [min, setMin] = useState(8)
   const [max, setMax] = useState(12)
+  const [jd, setJd] = useState('')
+  const [read, setRead] = useState<number | null>(null)
+  const parse = () => {
+    const v = parseVacancy(jd, students)
+    if (v.title) setTitle(v.title)
+    if (v.skills.length) setSkills(v.skills.join(', '))
+    if (v.schools.length) setSchools(v.schools)
+    setEmployment(v.employment)
+    if (v.min) setMin(v.min)
+    if (v.max) setMax(v.max)
+    setRead(v.skills.length)
+  }
   const submit = (e: React.FormEvent) => {
     e.preventDefault()
     const list = skills.split(',').map((x) => x.trim()).filter(Boolean)
@@ -527,6 +550,10 @@ export function Roles() {
         <Sheet title={t('roles.new')} onClose={() => setOpen(false)}>
           <form className="form" onSubmit={submit}>
             <h2 className="sheet-h">{t('roles.new')}</h2>
+            <div className="jd">
+              <label className="field"><span><Icon name="agent" size={13} /> {t('jd.t')}</span><textarea id="role-jd" rows={4} value={jd} onChange={(e) => { setJd(e.target.value); setRead(null) }} placeholder={t('jd.ph')} /></label>
+              <div className="row"><Btn small kind="ink" icon="agent" disabled={jd.trim().length < 12} onClick={parse}>{t('jd.go')}</Btn>{read !== null && <small role="status">{read ? t('jd.done', { n: read }) : t('jd.none')}</small>}</div>
+            </div>
             <label className="field"><span>{t('roles.f.title')}</span><input id="role-title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t('roles.f.title.ph')} required /></label>
             <fieldset className="field"><legend>{t('roles.f.schools')}</legend>
               <div className="chips">{SCHOOLS.map((s) => <button type="button" key={s} role="checkbox" aria-checked={schools.includes(s)} className={'chip sch-' + s + (schools.includes(s) ? ' is-on' : '')} onClick={() => setSchools(schools.includes(s) ? schools.filter((x) => x !== s) : [...schools, s])}><i aria-hidden="true" />{t('school.' + s)}</button>)}</div>

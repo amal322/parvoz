@@ -1,0 +1,37 @@
+/* Second visual style, "Night". Same product and layout rules, another art direction:
+   near-black ground, luminous school colours, Unbounded for display type. Switched by data-style on <html>. */
+:root[data-style='b'] {
+  color-scheme: dark;
+  --paper: #0b0b0d; --white: #17171a; --ink: #f3f3ee; --ink-2: #a8a8a1; --ink-3: #777770; --line: #2c2c31;
+  --blue: #4a67ff; --blue-soft: #1a2150;
+  --ok: #45d990; --ok-soft: #0f2c1f; --warn: #ffc34d; --warn-soft: #33260a; --bad: #ff7d73; --bad-soft: #3a1512;
+  --series-1: #5b78ff; --series-2: #b98a2a; --series-3: #d9479f; --series-a: #5b78ff; --series-b: #c9952f; /* checked for colour-blind separation on the dark ground */
+  --on-ink: #0e0e0e;
+  --display: 'Unbounded', var(--sans);
+  --serif: var(--sans);
+}
+/* blocks that are dark in the first style stay dark here; their text already uses the light-on-dark tokens */
+:root[data-style='b'] :is(.sec-black, .marquee, .fee-box) { background: #000; }
+:root[data-style='b'] .pre { background: #0b0b0d; }
+:root[data-style='b'] :is(.tip, .ctip) { background: #2b2b31; }
+:root[data-style='b'] :is(.tip b, .ctip b, .ctip em) { color: #fff; }
+:root[data-style='b'] :is(.srow:hover .srow-count, .plan-opt.is-on small) { color: #55554f; }
+/* anything on yellow or on a white print keeps the light-style colours inside it */
+:root[data-style='b'] :is(.scard, .tag-drag, .badge, .demo-tag, .keen, .confirm, .me-tip, .cases li, .btn-yellow, .tour-next, .tourbtn) {
+  --ink: #0e0e0e; --ink-2: #55554f; --ink-3: #86867f; --line: #d9d9d4; --white: #ffffff; --paper: #f2f2f0; --on-ink: #ffffff; --blue: #1b3bff; --ok: #0b7a45; --warn: #8a5200;
+  color: var(--ink);
+}
+:root[data-style='b'] :is(.tag-hit, .pill.pill-blue) { color: #a9b7ff; }
+:root[data-style='b'] .radar-ring.is-outer { stroke: #4a4a52; }
+/* display type */
+:root[data-style='b'] :is(.title h1, .title h2, .wordmark, .wordmark-big, .sheet-h, .profile-head h2, .t-serif) { font-family: var(--display); }
+:root[data-style='b'] .title :is(h1, h2) { zoom: .7; line-height: 1; letter-spacing: -.045em; }
+:root[data-style='b'] .t-serif { font-weight: 300; letter-spacing: -.045em; }
+:root[data-style='b'] .t-sans { font-weight: 800; }
+:root[data-style='b'] :is(dd, p, b).t-serif { zoom: .78; }
+:root[data-style='b'] :is(.sheet-h, .profile-head h2) { zoom: .8; letter-spacing: -.04em; }
+:root[data-style='b'] .wordmark { font-size: 17px; letter-spacing: -.04em; }
+:root[data-style='b'] .wordmark-big { font-size: clamp(3rem, 16.5vw, 15.5rem); letter-spacing: -.06em; }
+:root[data-style='b'] :is(.radar-area, .line-main) { filter: drop-shadow(0 0 10px color-mix(in srgb, var(--series-1) 45%, transparent)); }
+:root[data-style='b'] .glyph-shape { filter: drop-shadow(0 0 6px color-mix(in srgb, var(--sch, var(--blue)) 55%, transparent)); }
+:root[data-style='b'] .radar-area { fill-opacity: .3; }

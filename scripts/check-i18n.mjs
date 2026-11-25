@@ -23,6 +23,7 @@ const fam = {
   fun: [0, 1, 2, 3, 4, 5], inv: ['paid', 'due', 'scheduled', 'void', 'sub', 'half1', 'half2'], role: ['company', 'student', 'office', 'r1', 'r2', 'r3', 'j1', 'j2', 'j3', 'j4'],
   n: ['talent', 'pipeline', 'roles', 'billing', 'inbox', 'jobs', 'me', 'overview', 'outcomes', 'placements', 'companies'],
   ax: ['acad', 'skills', 'proj', 'act', 'eng', 'att'], lvl: [1, 2, 3, 4, 5], gap: ['short', 'tight', 'ok'],
+  'ag.rx': ['salary', 'english', 'gpa', 'year'], 'ai.v': ['strong', 'good', 'stretch'], style: ['t', 'a', 'b'],
 }
 const need = Object.entries(fam).flatMap(([f, xs]) => xs.map((x) => `${f}.${x}`))
 for (const p of fam.prog) need.push(`hl.${p}`, `pj.${p}.1.t`, `pj.${p}.1.d`, `pj.${p}.2.t`, `pj.${p}.2.d`)
@@ -30,6 +31,8 @@ for (let i = 1; i <= 6; i++) need.push(`faq.q${i}`, `faq.a${i}`)
 for (let i = 1; i <= 4; i++) need.push(`how.${i}.t`, `how.${i}.d`)
 for (let i = 1; i <= 3; i++) need.push(`fee.f${i}.t`, `fee.f${i}.d`)
 for (const c of ['scout', 'team', 'partner']) need.push(`plan.${c}.note`)
+for (let i = 1; i <= 8; i++) need.push(`tour.${i}.t`, `tour.${i}.d`)
+for (const k of ['ag.s1', 'ag.s2', 'ag.s3', 'ag.s4', 'ag.n.level', 'ag.n.record', 'ag.n.oversalary', 'ag.n.english', 'ai.s.skills', 'ai.s.level', 'ai.s.axes', 'ai.s.trend', 'ai.g.missing', 'ai.g.level', 'ai.g.axes', 'ai.g.school', 'ai.r.salary', 'ai.r.type', 'ai.r.attendance', 'ai.r.trend', 'ai.q.missing', 'ai.q.depth', 'ai.q.motivation']) need.push(k)
 for (const k of need) if (!keys.has(k)) { console.log('missing', k); bad++ }
 // placeholders must match across languages
 const mod = src

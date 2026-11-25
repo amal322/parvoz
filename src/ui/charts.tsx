@@ -248,3 +248,16 @@ export function GapChart({ rows, roles, students }: { rows: { name: string; aske
     </>
   )
 }
+
+// ───────────────────────────────────────────────────────── the shape of a student
+/** The radar without labels: a small mark that tells two students apart at a glance. */
+export function RadarGlyph({ values, size = 44, title }: { values: RadarValues; size?: number; title?: string }) {
+  const c = 22, r = 20
+  const at = (i: number, v: number) => `${(c + Math.cos(ang(i)) * r * (v / 100)).toFixed(1)},${(c + Math.sin(ang(i)) * r * (v / 100)).toFixed(1)}`
+  return (
+    <svg className="glyph" width={size} height={size} viewBox="0 0 44 44" role={title ? 'img' : undefined} aria-label={title} aria-hidden={title ? undefined : true}>
+      <polygon className="glyph-ring" points={AXES.map((_, i) => at(i, 100)).join(' ')} />
+      <polygon className="glyph-shape" points={AXES.map((a, i) => at(i, values[a])).join(' ')} />
+    </svg>
+  )
+}

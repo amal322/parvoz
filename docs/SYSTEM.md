@@ -12,6 +12,8 @@ The candidate base is the existing CAU Digital CV.
 | hh.uz (239k active CVs, about 33k vacancies a quarter) | Paid vacancy posts (66k to 164k UZS in the 2023 price list) and paid CV database access. | Subscription for database access is a habit Uzbek HR teams already have. | Records are verified by the registrar, not self-written. |
 | Recruiting agencies | 15 to 22% of annual salary for general roles, 20 to 30% for IT. Guarantee of 60 to 90 days. Paid on hire. | Success fee, 90-day guarantee. | Fee is split in two, and the second half is tied to the guarantee. |
 | Hired / Wellfound | Companies apply to candidates, salary shown up front. | Intro requests carry the role and salary range. The student decides. | Contacts stay closed until the student accepts. |
+| LinkedIn Hiring Assistant | Part of Recruiter. LinkedIn reports, for early adopters: 4+ hours saved per role, 62% fewer profiles reviewed, 69% better InMail acceptance. | An agent that takes intake notes in plain words, sources, and improves with feedback. | The base is small and verified, so the agent explains every pick from the record instead of guessing from a self-written profile. |
+| HeadHunter AI assistant (pilot into early 2026) | Drafts the vacancy, finds candidates, invites, holds the first dialogue, sorts responses, writes summaries. The final decision stays with a person. | Vacancy text in, ranked and explained shortlist out. Human decides. | No automated first dialogue with students: the student answers a person, after accepting the intro. |
 
 Three monthly salaries equal 25% of annual salary. That sits at the top of the agency range for
 general roles, and it is charged on top of a subscription, which agencies do not have. See section 8.
@@ -26,6 +28,12 @@ same headline. The recurring object is a print-like student card on its school c
 Engineering, yellow for Business, green for Medicine, pink for Dentistry). Motion: an opening
 curtain with a counter, headline lines rising out of masks, cards dealt onto the hero and draggable,
 steps that stack as you scroll, digits that roll in the fee calculator.
+
+The site ships in two visual styles over the same product, switched in the corner and kept in the
+address (`?style=a` or `?style=b`). "Paper" is the print look above. "Night" is a near-black ground
+with luminous school colours and Unbounded for display type; its hero is one idea, "every student has
+a shape": the six-measure radar flows from one student to the next. A guided walkthrough ("one hire in
+a minute", also at `#tour`) performs the eight steps of a hire in the demo store, by hand or by itself.
 
 ## 2. Roles
 
@@ -45,6 +53,9 @@ steps that stack as you scroll, digits that roll in the fee calculator.
 | Profile with verified record and match breakdown | Pick one of the offered interview times | Graduate outcomes by school |
 | Profile charts: six-measure radar against the school, GPA by semester, place in the school, skill levels | The same charts on the student's own profile, with what to raise first | Skills: demand from open roles against supply among students |
 | Salary expectation against the role's range | | |
+| AI agent: ask in plain words, get a ranked and explained shortlist; compare two; draft a first message | | |
+| AI review on every profile: what carries the score, what is missing, what to check, interview questions | | |
+| Vacancy text reader: paste the text, the form fills itself | | |
 | Team note on a candidate | Confirm or dispute a reported hire | Placement ledger with guarantee status |
 | Intro request, then interview times | Jobs ranked for the student, "I am interested" | Attribution checks |
 | Pipeline with drag and drop | Profile views (a count, never who) | Company approval |
@@ -181,7 +192,42 @@ ran on the deployed database and passed 14 of 14.
 5. **Payments.** Invoices are records only. Paying by bank transfer and marking as paid by the career
    office is enough for the pilot; Payme, Click or bank acquiring can follow.
 
-## 9. Sources
+## 9. AI agent and scoring
+
+**What it does.** Five jobs, all for the employer: read a request in plain Russian, Uzbek or English
+and turn it into conditions; filter and rank the base; explain a match (strengths, gaps, risks,
+interview questions); compare two candidates; draft the first message. It also reads a pasted vacancy
+and fills the role form.
+
+**What runs today.** Rules, not a language model: `src/data/agent.ts`. The request is read with
+patterns and a skill dictionary; filters, ranking and explanations use the same formula and record as
+the rest of the product. The screen says so. This is enough to show the experience and to test the
+logic; `npm run check:agent` covers it.
+
+**How it should be built.**
+
+- One server function (Supabase Edge Function) holds the model key and exposes three tools to the
+  model: `search_talent(criteria)`, `explain_match(student, role)`, `draft_intro(student, role)`.
+- Each tool runs with the caller's own session, so row level security applies unchanged. The model
+  cannot read a contact, a hidden student or another company's notes, because the caller cannot.
+- The score is computed, not generated. The model turns words into conditions and conditions into
+  wording; the number comes from the formula in section 5.
+- Name, photo, gender and age are not passed to the model for ranking. The tools return an internal
+  id and the verified record; the interface joins the name back.
+
+**Rules to keep.**
+
+| Rule | Why |
+|---|---|
+| A person makes every decision; the agent never sends an intro or rejects anyone by itself | Hiring is a high-risk use of AI in most frameworks; HeadHunter and LinkedIn keep the same line |
+| Every answer is logged with the request, the conditions, the model and the output | An employer or a student can ask "why was this person ranked here" months later |
+| If no one passes every condition, the agent says which condition it dropped | Silent relaxing of a filter is how wrong shortlists get trusted |
+| A yearly check of selection rates by school and gender | The formula is neutral on paper; the data may not be |
+| No automated interview or chat screening of students | The error cost falls on students, and consent for it is a separate question |
+
+Not built: the server function, the log table, the model itself.
+
+## 10. Sources
 
 - Handshake business model: https://sacra.com/c/handshake/
 - Agency fees and guarantees: https://www.leonar.app/blog/how-much-do-recruitment-agencies-charge/
@@ -192,3 +238,6 @@ ran on the deployed database and passed 14 of 14.
 - Awwwards evaluation: https://awwwards.com/about-evaluation
 - Juror notes on 2026 winners: https://www.hontran.dev/blog/best-award-winning-websites-2026
 - Style reference: https://www.extrafazant.nl/ (Awwwards nominee, design by Dylan Brouwer)
+- LinkedIn Hiring Assistant, reported results: https://news.linkedin.com/2025/hiring-assistant-globally-available
+- HeadHunter AI assistant: https://rozetked.me/news/42924-headhunter-zapustil-ii-assistenta-dlya-rekruterov-on-pomogaet-avtomatizirovat-naym
+- Motion techniques on awarded sites, 2026: https://motionkit.io/blog/web-animation-trends-2026
