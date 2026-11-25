@@ -55,12 +55,32 @@ const CATALOG: Record<School, { programs: Record<string, string[]>; years: numbe
     salary: [5, 10],
     faculty: ['Dr. B. Rasulov', 'Prof. E. Lindqvist'],
   },
+  arc: {
+    programs: {
+      arch: ['AutoCAD', 'Revit', 'SketchUp', '3D visualization', 'Technical drawing', 'Urban planning'],
+      intd: ['SketchUp', '3ds Max', 'Material selection', 'AutoCAD', 'Presentation', 'Adobe Photoshop'],
+      gd: ['Figma', 'Adobe Illustrator', 'Adobe Photoshop', 'Branding', 'Typography', 'Presentation'],
+    },
+    years: 4,
+    salary: [5, 10],
+    faculty: ['Dr. F. Karimova', 'Prof. M. Rossi', 'Dr. T. Yuldashev'],
+  },
+  hos: {
+    programs: {
+      hm: ['Guest service', 'Opera PMS', 'Revenue management', 'Event planning', 'Sales', 'Presentation'],
+      tm: ['Tour planning', 'Guest service', 'Market research', 'SMM', 'Event planning', 'Presentation'],
+    },
+    years: 4,
+    salary: [4, 8],
+    faculty: ['Dr. L. Moreau', 'Prof. S. Akbarov'],
+  },
 }
 
 function build(): Student[] {
   const r = rng(20261110)
   const pick = <T,>(xs: T[]) => xs[Math.floor(r() * xs.length)]
-  const plan: [School, number][] = [['eng', 14], ['bus', 11], ['med', 6], ['den', 5]]
+  // new schools go at the end so the students generated before them stay exactly the same
+  const plan: [School, number][] = [['eng', 14], ['bus', 11], ['med', 6], ['den', 5], ['arc', 6], ['hos', 6]]
   const out: Student[] = []
   const used = new Set<string>()
   const next = { f: 1, m: 0 } // portrait f[0] is reserved for the demo persona
@@ -92,7 +112,7 @@ function build(): Student[] {
         id: `s${++n}`,
         name,
         female,
-        portrait: female ? next.f++ % 20 : next.m++ % 20,
+        portrait: female ? next.f++ % 26 : next.m++ % 26,
         school,
         program,
         year,
@@ -140,6 +160,8 @@ export const JOBS: Role[] = [
   { id: 'j2', titleKey: 'role.j2', company: 'Chinor Industries', industry: 'manufacturing', schools: ['eng'], skills: ['SQL', 'Power BI', 'Data analysis', 'Lean manufacturing'], employment: 'full', salaryMin: 8e6, salaryMax: 11e6 },
   { id: 'j3', titleKey: 'role.j3', company: 'Meros Retail', industry: 'retail', schools: ['eng', 'bus'], skills: ['Python', 'Machine learning', 'SQL', 'Docker'], employment: 'full', salaryMin: 12e6, salaryMax: 17e6 },
   { id: 'j4', titleKey: 'role.j4', company: 'Oqsaroy Clinics', industry: 'healthcare', schools: ['med', 'eng'], skills: ['Medical statistics', 'Python', 'Statistics', 'Clinical research'], employment: 'part', salaryMin: 5e6, salaryMax: 7e6 },
+  { id: 'j5', titleKey: 'role.j5', company: 'Registon Hotels', industry: 'hospitality', schools: ['hos'], skills: ['Guest service', 'Opera PMS', 'Event planning', 'Sales'], employment: 'full', salaryMin: 6e6, salaryMax: 9e6 },
+  { id: 'j6', titleKey: 'role.j6', company: 'Minor Development', industry: 'construction', schools: ['arc'], skills: ['AutoCAD', 'Revit', '3D visualization', 'Technical drawing'], employment: 'full', salaryMin: 7e6, salaryMax: 11e6 },
 ]
 
 export interface Plan {
@@ -163,6 +185,8 @@ export const OTHER_COMPANIES = [
   { id: 'c4', name: 'Chinor Industries', industry: 'manufacturing', plan: 'scout', status: 'approved' as const, hires: 9 },
   { id: 'c5', name: 'Meros Retail', industry: 'retail', plan: 'team', status: 'pending' as const, hires: 0 },
   { id: 'c6', name: 'Lola Dental Group', industry: 'healthcare', plan: 'scout', status: 'pending' as const, hires: 0 },
+  { id: 'c7', name: 'Registon Hotels', industry: 'hospitality', plan: 'team', status: 'approved' as const, hires: 7 },
+  { id: 'c8', name: 'Minor Development', industry: 'construction', plan: 'scout', status: 'approved' as const, hires: 5 },
 ]
 
 // twelve months of platform revenue for the career office view, UZS millions (Dec 2025 to Nov 2026)
@@ -176,8 +200,10 @@ export const FUNNEL = [1284, 2140, 1498, 902, 311, 214]
 
 // class of 2026, six months after graduation
 export const OUTCOMES: { school: School; grads: number; employed: number; via: number; salary: number }[] = [
-  { school: 'eng', grads: 412, employed: 334, via: 96, salary: 9.8e6 },
-  { school: 'bus', grads: 365, employed: 285, via: 71, salary: 8.9e6 },
-  { school: 'med', grads: 148, employed: 130, via: 29, salary: 6.4e6 },
-  { school: 'den', grads: 96, employed: 82, via: 18, salary: 7.2e6 },
+  { school: 'eng', grads: 412, employed: 334, via: 88, salary: 9.8e6 },
+  { school: 'bus', grads: 365, employed: 285, via: 66, salary: 8.9e6 },
+  { school: 'med', grads: 148, employed: 130, via: 27, salary: 6.4e6 },
+  { school: 'den', grads: 96, employed: 82, via: 17, salary: 7.2e6 },
+  { school: 'arc', grads: 84, employed: 63, via: 9, salary: 7.6e6 },
+  { school: 'hos', grads: 72, employed: 58, via: 7, salary: 6.1e6 },
 ]

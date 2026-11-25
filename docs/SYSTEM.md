@@ -25,7 +25,8 @@ reward one clear point of view, motion that is choreographed and continuous betw
 Visual direction, set after reviewing extrafazant.nl (Awwwards nominee): paper ground with black
 bands, one electric blue, and display type that pairs a heavy grotesque with a narrow serif in the
 same headline. The recurring object is a print-like student card on its school colour (blue for
-Engineering, yellow for Business, green for Medicine, pink for Dentistry). Motion: an opening
+Engineering, yellow for Business, green for Medicine, pink for Dentistry, orange for Architecture and
+Design, violet for Tourism and Hospitality). Motion: an opening
 curtain with a counter, headline lines rising out of masks, cards dealt onto the hero and draggable,
 steps that stack as you scroll, digits that roll in the fee calculator.
 
@@ -165,7 +166,7 @@ Rules enforced in the database, not in the browser:
 | School averages are aggregates over opted-in students; a semester average needs three students | `cohort_stats()`, `cohort_terms()`, `school_scores()` |
 
 `npm run check:sql` applies the migrations to an in-process Postgres and plays a full hire with
-61 assertions on these rules, including the seed and `supabase/verify.sql`. The same verify script
+62 assertions on these rules, including the seed and `supabase/verify.sql`. The same verify script
 ran on the deployed database and passed 14 of 14.
 
 ## 8. Open decisions

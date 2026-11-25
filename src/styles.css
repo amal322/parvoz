@@ -14,6 +14,8 @@
   --yellow: #ffd43a;
   --green: #2fd27f;
   --pink: #ff8fcf;
+  --orange: #ff8438;
+  --violet: #a58bff;
   --ok: #0b7a45;
   --ok-soft: #ddf5e8;
   --warn: #8a5200;
@@ -114,7 +116,7 @@ html.rv .fade:not(.in), html.booting .hero .fade { opacity: 0; transform: transl
 .tag-hit { background: var(--blue-soft); color: var(--blue); }
 .sheet .tag:not(.tag-hit) { background: var(--white); }
 
-.sch-eng { --sch: var(--blue); } .sch-bus { --sch: var(--yellow); } .sch-med { --sch: var(--green); } .sch-den { --sch: var(--pink); }
+.sch-eng { --sch: var(--blue); } .sch-bus { --sch: var(--yellow); } .sch-med { --sch: var(--green); } .sch-den { --sch: var(--pink); } .sch-arc { --sch: var(--orange); } .sch-hos { --sch: var(--violet); }
 .portrait { display: block; aspect-ratio: 1; overflow: hidden; background: var(--sch, var(--line)); }
 .portrait img { display: block; width: 100%; height: 100%; object-fit: cover; transform: translateY(7%) scale(1.1); pointer-events: none; }
 .logo { flex: none; display: grid; place-items: center; width: 48px; height: 48px; background: var(--ink); color: var(--on-ink); font: 800 20px/1 var(--sans); }
@@ -778,6 +780,15 @@ html.booting .table-card { animation-play-state: paused; }
 .cursor { position: fixed; left: 0; top: 0; z-index: 70; pointer-events: none; opacity: 0; transition: opacity .3s; } .cursor.is-on { opacity: 1; }
 .cursor i { display: block; width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%; border: 1.5px solid var(--ink); transition: transform .25s var(--ease), background .25s; }
 .cursor.is-big i { transform: scale(1.7); background: color-mix(in srgb, var(--ink) 14%, transparent); }
+
+.backed { display: inline-flex; align-items: center; gap: 12px; text-align: left; }
+.backed img { display: block; width: 46px; height: 46px; flex: none; }
+.backed small { display: block; margin-bottom: 3px; font: 700 10px/1 var(--sans); text-transform: uppercase; letter-spacing: .09em; color: var(--ink-2); }
+.backed b { display: block; font: 800 14px/1.1 var(--sans); text-transform: uppercase; letter-spacing: -.01em; }
+.foot .backed small { color: inherit; opacity: .8; }
+.foot-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; }
+.foot { padding-bottom: 76px; }
+.heroB .backed { margin-bottom: 14px; }
 
 /* ── narrower screens ──────────────────────────────────────── */
 @media (max-width: 1100px) {

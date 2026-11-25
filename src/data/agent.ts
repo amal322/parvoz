@@ -59,9 +59,16 @@ const ALIASES: [RegExp, string[]][] = [
   [/radiolog|рентген/i, ['Dental radiology']],
   [/copywrit|копирайт/i, ['Copywriting']],
   [/presentation|презентац|taqdimot/i, ['Presentation']],
+  [/revit|ревит/i, ['Revit']],
+  [/визуализ|3d vis/i, ['3D visualization']],
+  [/brand|бренд/i, ['Branding']],
+  [/guest|работ\S* с гостями|mehmonlar bilan/i, ['Guest service']],
+  [/event|мероприят|tadbir/i, ['Event planning']],
 ]
 const SCHOOL_RX: [RegExp, School][] = [
   [/стомат|dent|stomat/i, 'den'],
+  [/архитект|дизайн|architect|design|arxitekt|dizayn/i, 'arc'],
+  [/туризм|гостинич|гостеприим|отел|hospitality|tourism|hotel|turizm|mehmon/i, 'hos'],
   [/медиц|medic|врач|tibbiyot|shifokor/i, 'med'],
   [/инженер|engineer|muhandis|айти|\bit\b/i, 'eng'],
   [/бизнес|business|biznes|экономи|iqtisod/i, 'bus'],

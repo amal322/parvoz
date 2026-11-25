@@ -3,6 +3,7 @@ import type { Student } from '../data/logic'
 import { PORTRAITS } from '../data/portraits'
 import { setLang, useStore } from '../data/store'
 import { LANGS, useT } from '../i18n'
+import cau from '../assets/cau.png'
 
 export const reduceMotion = () => typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -69,6 +70,17 @@ export function StudentCard({ s, sticker, sub, className = '', style }: { s: Stu
       {sticker && <span className="sticker">{sticker}</span>}
       <span className="scard-name">{s.name}</span>
       <span className="scard-sub">{sub ?? t('prog.' + s.program)}</span>
+    </span>
+  )
+}
+
+/** The university behind the platform. The mark is CAU's own, used as supplied. */
+export function Backed() {
+  const { t } = useT()
+  return (
+    <span className="backed">
+      <img src={cau} alt="" width={46} height={46} />
+      <span><small>{t('cau.backed')}</small><b>Central Asian University</b></span>
     </span>
   )
 }

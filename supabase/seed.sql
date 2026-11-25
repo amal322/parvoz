@@ -9,7 +9,9 @@ insert into companies (name, tin, industry, status) values
   ('Oqsaroy Clinics', 'DEMO-0003', 'Healthcare', 'approved'),
   ('Chinor Industries', 'DEMO-0004', 'Manufacturing', 'approved'),
   ('Meros Retail', 'DEMO-0005', 'Retail', 'pending'),
-  ('Lola Dental Group', 'DEMO-0006', 'Healthcare', 'pending')
+  ('Lola Dental Group', 'DEMO-0006', 'Healthcare', 'pending'),
+  ('Registon Hotels', 'DEMO-0007', 'Hotels', 'approved'),
+  ('Minor Development', 'DEMO-0008', 'Development', 'approved')
 on conflict (tin) do nothing;
 
 insert into subscriptions (company_id, plan_code)
@@ -17,7 +19,9 @@ select c.id, v.plan from (values
   ('DEMO-0001', 'team'),
   ('DEMO-0002', 'team'),
   ('DEMO-0003', 'partner'),
-  ('DEMO-0004', 'scout')
+  ('DEMO-0004', 'scout'),
+  ('DEMO-0007', 'team'),
+  ('DEMO-0008', 'scout')
 ) as v (tin, plan)
 join companies c on c.tin = v.tin
 where not exists (select 1 from subscriptions s where s.company_id = c.id);
@@ -61,9 +65,21 @@ insert into demo_students values
   ('MED-0006', 'Kamola Hamidova', 'medical', 'General Medicine', 4, 2029, 3.90, 92, 826, '{internship,part_time}', '2026-12-01', 3500000, 'IELTS 6.5', '{uz,ru,en}', 'f19', 'Clinical research and patient care', 'k.hamidova@students.example', '{"EMR systems","Clinical research","Lab diagnostics","Medical statistics"}', '{4,5,4,4}', 546, 187, 93, '{4,3.81,3.83,3.94,3.9,3.92}', '{95,93,95,95,93,91}'),
   ('DEN-0001', 'Sardor Saidov', 'dental', 'Dentistry', 4, 2028, 3.92, 92, 789, '{internship,part_time}', '2026-12-01', 4500000, 'IELTS 6.0', '{uz,ru,en}', 'm12', 'Restorative and digital dentistry', 's.saidov@students.example', '{"Orthodontics basics","Patient care","Dental radiology","Restorative dentistry","CAD/CAM dentistry"}', '{4,5,5,4,3}', 549, 146, 94, '{3.92,3.87,3.97,3.82,4,3.94}', '{95,90,92,95,89,88}'),
   ('DEN-0002', 'Shoxrux Ismoilov', 'dental', 'Dentistry', 3, 2029, 3.62, 80, 883, '{internship,part_time}', '2026-12-01', 3000000, 'IELTS 6.5', '{uz,en}', 'm13', 'Restorative and digital dentistry', 's.ismoilov@students.example', '{"Dental radiology","Orthodontics basics","CAD/CAM dentistry","Restorative dentistry","Sterilization protocols"}', '{3,4,3,3,4}', 507, 266, 110, '{3.58,3.58,3.62,3.7}', '{80,83,76,82}'),
-  ('DEN-0003', 'Zarina Mirzaeva', 'dental', 'Dentistry', 5, 2027, 3.26, 79, 738, '{full_time}', '2027-06-15', 9000000, 'IELTS 7.0', '{uz,ru,en}', 'f0', 'Restorative and digital dentistry', 'z.mirzaeva@students.example', '{"Dental radiology","CAD/CAM dentistry","Patient care","Sterilization protocols"}', '{3,3,2,3}', 456, 180, 102, '{3.03,3.11,3.07,3.25,3.4,3.31,3.5,3.41}', '{83,82,77,81,76,77,80,77}'),
+  ('DEN-0003', 'Zarina Mirzaeva', 'dental', 'Dentistry', 5, 2027, 3.26, 79, 738, '{full_time}', '2027-06-15', 9000000, 'IELTS 7.0', '{uz,ru,en}', 'f20', 'Restorative and digital dentistry', 'z.mirzaeva@students.example', '{"Dental radiology","CAD/CAM dentistry","Patient care","Sterilization protocols"}', '{3,3,2,3}', 456, 180, 102, '{3.03,3.11,3.07,3.25,3.4,3.31,3.5,3.41}', '{83,82,77,81,76,77,80,77}'),
   ('DEN-0004', 'Jasur Saidov', 'dental', 'Dentistry', 3, 2029, 3.34, 96, 624, '{internship,part_time}', '2027-01-15', 4500000, 'IELTS 7.0', '{uz,ru,en}', 'm14', 'Restorative and digital dentistry', 'j.saidov@students.example', '{"Restorative dentistry","Orthodontics basics","Dental radiology"}', '{4,4,2}', 468, 110, 46, '{3.34,3.48,3.28,3.27}', '{99,97,94,94}'),
-  ('DEN-0005', 'Laylo Normatova', 'dental', 'Dentistry', 4, 2028, 3.33, 81, 742, '{internship}', '2026-12-01', 3500000, 'IELTS 8.0', '{uz,en}', 'f1', 'Restorative and digital dentistry', 'l.normatova@students.example', '{"Sterilization protocols","Dental radiology","CAD/CAM dentistry","Orthodontics basics","Restorative dentistry"}', '{4,3,4,2,4}', 466, 171, 105, '{3.3,3.29,3.4,3.24,3.41,3.34}', '{80,84,80,81,83,80}');
+  ('DEN-0005', 'Laylo Normatova', 'dental', 'Dentistry', 4, 2028, 3.33, 81, 742, '{internship}', '2026-12-01', 3500000, 'IELTS 8.0', '{uz,en}', 'f21', 'Restorative and digital dentistry', 'l.normatova@students.example', '{"Sterilization protocols","Dental radiology","CAD/CAM dentistry","Orthodontics basics","Restorative dentistry"}', '{4,3,4,2,4}', 466, 171, 105, '{3.3,3.29,3.4,3.24,3.41,3.34}', '{80,84,80,81,83,80}'),
+  ('ARC-0001', 'Shoxrux Khodjaev', 'architecture', 'Architecture', 4, 2027, 3.24, 86, 626, '{full_time}', '2027-06-15', 7500000, 'IELTS 7.0', '{uz,ru,en}', 'm15', 'Buildings that work for the people in them', 's.khodjaev@students.example', '{SketchUp,"Technical drawing",Revit,"3D visualization"}', '{4,3,2,4}', 454, 107, 65, '{3.16,3.21,3.33,3.14,3.29,3.31}', '{89,84,89,84,89,87}'),
+  ('ARC-0002', 'Ulugbek Kadirov', 'architecture', 'Interior Design', 4, 2027, 3.66, 98, 746, '{full_time,part_time}', '2027-06-15', 8000000, 'IELTS 7.5', '{uz,ru,en}', 'm16', 'Interiors drawn down to the last joint', 'u.kadirov@students.example', '{"Adobe Photoshop",AutoCAD,"3ds Max"}', '{3,4,4}', 512, 140, 94, '{3.43,3.42,3.73,3.63,3.83,3.91}', '{98,95,99,100,100,99}'),
+  ('ARC-0003', 'Davron Hamidov', 'architecture', 'Graphic Design', 4, 2027, 3.46, 94, 737, '{full_time,part_time}', '2027-06-15', 7500000, 'IELTS 6.5', '{uz,ru,en}', 'm17', 'Brands people can read at a glance', 'd.hamidov@students.example', '{Branding,Typography,"Adobe Photoshop",Presentation,Figma}', '{4,3,4,4,3}', 484, 174, 79, '{3.45,3.44,3.61,3.39,3.47,3.41}', '{91,93,92,95,97,91}'),
+  ('ARC-0004', 'Farrukh Valiev', 'architecture', 'Architecture', 2, 2029, 3.25, 87, 600, '{internship}', '2027-06-01', 5000000, 'IELTS 8.0', '{uz,ru,en}', 'm18', 'Buildings that work for the people in them', 'f.valiev@students.example', '{"3D visualization",Revit,AutoCAD,"Urban planning"}', '{3,2,3,4}', 455, 97, 48, '{3.16,3.34}', '{85,88}'),
+  ('ARC-0005', 'Nodira Rakhimova', 'architecture', 'Interior Design', 4, 2027, 2.96, 93, 510, '{full_time}', '2027-06-15', 7500000, 'IELTS 7.5', '{uz,en}', 'f22', 'Interiors drawn down to the last joint', 'n.rakhimova@students.example', '{SketchUp,"Material selection",AutoCAD}', '{2,3,2}', 414, 68, 28, '{2.88,3,2.88,3.06,2.9,3.03}', '{92,90,96,93,90,89}'),
+  ('ARC-0006', 'Nodira Normatova', 'architecture', 'Graphic Design', 3, 2028, 3.74, 79, 839, '{internship,part_time}', '2027-06-01', 3000000, 'IELTS 8.0', '{uz,ru,en}', 'f23', 'Brands people can read at a glance', 'n.normatova@students.example', '{Presentation,Typography,Branding}', '{5,5,3}', 524, 197, 118, '{3.76,3.71,3.63,3.86}', '{77,79,78,78}'),
+  ('HOS-0001', 'Bekzod Normatov', 'hospitality', 'Hotel Management', 3, 2028, 3.50, 91, 673, '{internship}', '2027-06-01', 3000000, 'IELTS 7.5', '{uz,ru,en}', 'm19', 'Runs a front desk that guests remember', 'b.normatov@students.example', '{Presentation,"Revenue management",Sales,"Guest service"}', '{4,3,4,3}', 490, 121, 62, '{3.43,3.67,3.5,3.4}', '{87,90,87,91}'),
+  ('HOS-0002', 'Iroda Rakhimova', 'hospitality', 'Tourism Management', 4, 2027, 3.99, 95, 794, '{full_time}', '2027-06-15', 7500000, 'IELTS 8.0', '{uz,ru,en}', 'f24', 'Routes and events that sell out', 'i.rakhimova@students.example', '{"Market research","Guest service","Event planning",Presentation}', '{4,3,4,3}', 559, 135, 100, '{4,3.99,3.98,4,3.98,3.99}', '{97,97,91,91,91,98}'),
+  ('HOS-0003', 'Bekzod Rakhimov', 'hospitality', 'Hotel Management', 3, 2028, 3.96, 82, 906, '{internship}', '2026-12-01', 4000000, 'IELTS 7.5', '{uz,ru,en}', 'm20', 'Runs a front desk that guests remember', 'b.rakhimov@students.example', '{Presentation,"Opera PMS","Event planning"}', '{4,3,3}', 554, 219, 133, '{3.87,3.99,3.98,4}', '{84,80,83,80}'),
+  ('HOS-0004', 'Javlon Nazarov', 'hospitality', 'Tourism Management', 3, 2028, 3.93, 95, 948, '{internship}', '2027-01-15', 2500000, 'IELTS 6.5', '{uz,ru,en}', 'm21', 'Routes and events that sell out', 'j.nazarov@students.example', '{"Tour planning","Event planning",SMM,"Market research",Presentation}', '{3,3,4,5,3}', 550, 238, 160, '{4,3.91,3.83,3.98}', '{97,95,92,94}'),
+  ('HOS-0005', 'Sevinch Rakhimova', 'hospitality', 'Hotel Management', 4, 2027, 3.73, 81, 919, '{full_time,part_time}', '2027-06-15', 7000000, 'IELTS 7.5', '{uz,ru,en}', 'f25', 'Runs a front desk that guests remember', 's.rakhimova@students.example', '{"Revenue management",Sales,"Guest service","Opera PMS"}', '{3,3,5,4}', 522, 237, 160, '{3.47,3.62,3.73,3.88,3.93,3.76}', '{77,80,83,85,78,78}'),
+  ('HOS-0006', 'Ulugbek Hamidov', 'hospitality', 'Tourism Management', 2, 2029, 3.67, 94, 784, '{internship}', '2027-06-01', 2500000, 'IELTS 7.0', '{uz,ru,en}', 'm22', 'Routes and events that sell out', 'u.hamidov@students.example', '{"Market research","Tour planning",Presentation,SMM,"Guest service"}', '{3,4,5,3,4}', 514, 175, 95, '{3.55,3.79}', '{97,97}');
 
 insert into students (student_no, full_name, school, program, year_of_study, grad_year, gpa, attendance_pct, cv_score, open_to, available_from,
                       salary_expectation_uzs, english, langs, portrait, headline, email, visible, consent_at)
@@ -126,7 +142,17 @@ insert into demo_projects values
   ('General Medicine', 'Hypertension adherence study', 'Survey of 180 outpatients, analysed in R.', 'Dr. J. Whitfield'),
   ('General Medicine', 'Clinical rotation log', '420 supervised hours across therapy and surgery.', 'Prof. N. Alimova'),
   ('Dentistry', 'Caries prevalence in school children', 'Screening of 300 pupils with a published abstract.', 'Dr. B. Rasulov'),
-  ('Dentistry', 'Digital crown workflow', 'CAD/CAM restorations on simulation models.', 'Dr. B. Rasulov');
+  ('Dentistry', 'Digital crown workflow', 'CAD/CAM restorations on simulation models.', 'Dr. B. Rasulov'),
+  ('Architecture', 'Community library for a mahalla', 'Full drawing set in Revit, passive cooling for the Tashkent climate.', 'Dr. T. Yuldashev'),
+  ('Architecture', 'Courtyard housing study', 'Six typologies compared by daylight and density.', 'Prof. M. Rossi'),
+  ('Interior Design', 'Clinic waiting area redesign', 'Layout, materials and lighting plan for 120 square metres.', 'Dr. T. Yuldashev'),
+  ('Interior Design', 'Boutique hotel room concept', '3ds Max visuals and a costed material board.', 'Dr. F. Karimova'),
+  ('Graphic Design', 'Identity for a city bakery chain', 'Logo, type system and packaging, tested with 40 customers.', 'Dr. T. Yuldashev'),
+  ('Graphic Design', 'Wayfinding for the campus', 'Sign family and map in three languages.', 'Dr. F. Karimova'),
+  ('Hotel Management', 'Front desk service audit', 'Mystery-guest visits to 12 Tashkent hotels with a scoring sheet.', 'Dr. L. Moreau'),
+  ('Hotel Management', 'Weekend occupancy plan', 'Pricing and packages that lifted a pilot hotel from 54% to 71%.', 'Prof. S. Akbarov'),
+  ('Tourism Management', 'Three-day Samarkand route', 'Costed itinerary for groups of 20, tested on two tours.', 'Prof. S. Akbarov'),
+  ('Tourism Management', 'Food festival for the campus', 'Ran an event for 600 visitors with 14 vendors.', 'Dr. L. Moreau');
 
 insert into projects (student_id, title, summary, verified_by)
 select s.id, p.title, p.summary, p.graded_by
@@ -144,7 +170,9 @@ from (values
   ('Sirdaryo Capital', 'Risk analyst', '{engineering,business}', '{SQL,Python,Statistics,"Financial modeling"}'::text[], 'full_time', 10000000::bigint, 14000000::bigint),
   ('Chinor Industries', 'Production data analyst', '{engineering}', '{SQL,"Power BI","Data analysis","Lean manufacturing"}'::text[], 'full_time', 8000000::bigint, 11000000::bigint),
   ('Meros Retail', 'Machine learning engineer', '{engineering,business}', '{Python,"Machine learning",SQL,Docker}'::text[], 'full_time', 12000000::bigint, 17000000::bigint),
-  ('Oqsaroy Clinics', 'Clinical data assistant', '{medical,engineering}', '{"Medical statistics",Python,Statistics,"Clinical research"}'::text[], 'part_time', 5000000::bigint, 7000000::bigint)
+  ('Oqsaroy Clinics', 'Clinical data assistant', '{medical,engineering}', '{"Medical statistics",Python,Statistics,"Clinical research"}'::text[], 'part_time', 5000000::bigint, 7000000::bigint),
+  ('Registon Hotels', 'Guest relations coordinator', '{hospitality}', '{"Guest service","Opera PMS","Event planning",Sales}'::text[], 'full_time', 6000000::bigint, 9000000::bigint),
+  ('Minor Development', 'Junior architect', '{architecture}', '{AutoCAD,Revit,"3D visualization","Technical drawing"}'::text[], 'full_time', 7000000::bigint, 11000000::bigint)
 ) as v (company, title, schools, skills, employment, salary_min, salary_max)
 join companies c on c.name = v.company and c.tin like 'DEMO-%'
 where not exists (select 1 from job_roles r where r.company_id = c.id and r.title = v.title);

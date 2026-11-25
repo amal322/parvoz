@@ -15,7 +15,7 @@ function load() {
   api.publicStats()
     .then((s: PublicStats) => {
       const b = s.by_school ?? {}
-      stats = { students: s.students, bySchool: { eng: b.engineering ?? 0, bus: b.business ?? 0, med: b.medical ?? 0, den: b.dental ?? 0 }, openRoles: s.open_roles, companies: s.companies }
+      stats = { students: s.students, bySchool: { eng: b.engineering ?? 0, bus: b.business ?? 0, med: b.medical ?? 0, den: b.dental ?? 0, arc: b.architecture ?? 0, hos: b.hospitality ?? 0 }, openRoles: s.open_roles, companies: s.companies }
       listeners.forEach((l) => l())
     })
     .catch(() => { /* offline or blocked: the page keeps its demo figures */ })

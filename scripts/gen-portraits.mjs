@@ -10,7 +10,7 @@ const HAIR = {
   f: v([63, 58, 48, 47, 46, 43, 41, 39, 37, 36, 28, 23, 10, 8, 4, 2, 62, 45, 11, 29]),
   m: v([56, 55, 54, 53, 52, 49, 44, 38, 35, 34, 33, 32, 31, 27, 25, 24, 22, 21, 19, 18]),
 }
-const N = 20
+const N = 26
 const make = (g, i) => {
   const svg = createAvatar(notionists, {
     seed: `parvoz-${g}-${i}`,

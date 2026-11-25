@@ -32,7 +32,7 @@ registrar-verified records, and pay three gross monthly salaries for each hire.
 | `supabase/migrations/` | Schema `parvoz`: tables, row level security, functions |
 | `supabase/seed.sql` | The same demo data for the database |
 | `supabase/verify.sql` | Plays one hire on a deployed database, then rolls itself back |
-| `scripts/check-sql.mjs` | Applies everything to an in-process Postgres and runs 61 checks |
+| `scripts/check-sql.mjs` | Applies everything to an in-process Postgres and runs 62 checks |
 | `scripts/check-i18n.mjs` | Checks that every key used in code exists in all three languages |
 
 ## Run it
@@ -41,7 +41,7 @@ registrar-verified records, and pay three gross monthly salaries for each hire.
 npm install          # also draws the placeholder portraits into src/data/portraits.ts
 npm run dev          # prototype on demo data
 npm run check:sql    # access rules, interviews, fee maths, seed, verify script
-npm run check:i18n   # 654 keys in three languages
+npm run check:i18n   # 691 keys in three languages
 npm run check:agent  # the agent reads requests in three languages and ranks as expected
 npm run build        # site in dist/
 npm run seed:sql     # rebuild supabase/seed.sql from src/data/seed.ts
@@ -53,7 +53,7 @@ npm run seed:sql     # rebuild supabase/seed.sql from src/data/seed.ts
 
 **Database.** Supabase project `cau-pgc`, schema `parvoz` (it shares the project with the CAU problem
 registry and does not touch its tables). Applied in this order through the SQL editor:
-`0001_init.sql`, `0002_features.sql`, `0003_insights.sql`, `seed.sql`, then `verify.sql` to check (14 of 14 passed).
+`0001_init.sql`, `0002_features.sql`, `0003_insights.sql`, `0004_six_schools.sql`, `seed.sql`, then `verify.sql` to check (14 of 14 passed).
 
 **Connecting the two.** Two switches, both outside the repository:
 

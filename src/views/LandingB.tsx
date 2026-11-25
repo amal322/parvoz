@@ -5,13 +5,13 @@ import { STUDENTS } from '../data/seed'
 import type { School, Student } from '../data/logic'
 import { enter } from '../data/store'
 import { useT } from '../i18n'
-import { Btn, Icon, Portrait, reduceMotion } from '../ui/bits'
+import { Backed, Btn, Icon, Portrait, reduceMotion } from '../ui/bits'
 import { startTour } from '../ui/tour'
 
 // six students whose shapes differ most: for each school, the one with the widest spread between measures
 const spread = (x: Student) => { const v = Object.values(radarOf(x)); return Math.max(...v) - Math.min(...v) }
 const pick = (s: School, n = 0) => STUDENTS.filter((x) => x.school === s && x.id !== STUDENTS[0].id).sort((a, b) => spread(b) - spread(a))[n]
-const CAST: Student[] = [STUDENTS[0], pick('bus'), pick('med'), pick('den'), pick('eng'), pick('bus', 1)]
+const CAST: Student[] = [STUDENTS[0], pick('bus'), pick('med'), pick('den'), pick('arc'), pick('hos')]
 
 const W = 520, C = 260, R = 190
 const ang = (i: number) => ((-90 + i * 60) * Math.PI) / 180
@@ -70,6 +70,7 @@ export function HeroB() {
             <Btn onClick={() => enter('company')}>{t('hero.cta')}</Btn>
             <button className="hb-play" onClick={startTour}><span><Icon name="play" size={13} /></span>{t('hero.tour')}</button>
           </div>
+          <Backed />
           <p className="hero-note">{t('hero.demo')}</p>
         </div>
 

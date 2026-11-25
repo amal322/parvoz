@@ -1,8 +1,8 @@
 // Pure business rules. The same rules are enforced in supabase/migrations.
 
-export type School = 'eng' | 'bus' | 'med' | 'den'
+export type School = 'eng' | 'bus' | 'med' | 'den' | 'arc' | 'hos'
 export type Employment = 'full' | 'intern' | 'part'
-export const SCHOOLS: School[] = ['eng', 'bus', 'med', 'den']
+export const SCHOOLS: School[] = ['eng', 'bus', 'med', 'den', 'arc', 'hos']
 export const EMPLOYMENTS: Employment[] = ['full', 'intern', 'part']
 
 export interface Student {

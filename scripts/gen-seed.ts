@@ -8,9 +8,9 @@ const en = (k: string) => translate('en', k)
 const q = (s: string | number | null) => (s === null ? 'null' : typeof s === 'number' ? String(s) : `'${s.replace(/'/g, "''")}'`)
 const nums = (xs: number[]) => `'{${xs.join(',')}}'`
 const arr = (xs: string[]) => `'{${xs.map((x) => (/[ ,()/]/.test(x) ? `"${x}"` : x)).join(',')}}'`
-const SCHOOL = { eng: 'engineering', bus: 'business', med: 'medical', den: 'dental' } as const
+const SCHOOL = { eng: 'engineering', bus: 'business', med: 'medical', den: 'dental', arc: 'architecture', hos: 'hospitality' } as const
 const EMP = { full: 'full_time', intern: 'internship', part: 'part_time' } as const
-const PREFIX = { eng: 'ENG', bus: 'BUS', med: 'MED', den: 'DEN' } as const
+const PREFIX = { eng: 'ENG', bus: 'BUS', med: 'MED', den: 'DEN', arc: 'ARC', hos: 'HOS' } as const
 
 const count: Record<string, number> = {}
 const students = STUDENTS.map((s) => {

@@ -23,7 +23,7 @@ async function rpc<T>(fn: string, args: Record<string, unknown>): Promise<T> {
 
 export interface PublicStats {
   students: number
-  by_school: Partial<Record<'engineering' | 'business' | 'medical' | 'dental', number>>
+  by_school: Partial<Record<'engineering' | 'business' | 'medical' | 'dental' | 'architecture' | 'hospitality', number>>
   open_roles: number
   companies: number
 }

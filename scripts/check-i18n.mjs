@@ -18,9 +18,9 @@ for (const m of src.matchAll(/^\s*'([\w.-]+)':\s*\[([\s\S]*?)\],?$/gm)) {
 }
 // keys built at run time: every member of each family must exist
 const fam = {
-  prog: ['ds', 'se', 'cs', 'me', 'ee', 'fin', 'ba', 'mkt', 'mgmt', 'gm', 'dn'], school: ['eng', 'bus', 'med', 'den'], emp: ['full', 'intern', 'part'],
-  st: ['shortlisted', 'intro', 'interview', 'offer', 'hired'], ind: ['software', 'finance', 'healthcare', 'manufacturing', 'retail'], lang: ['uz', 'ru', 'en'],
-  fun: [0, 1, 2, 3, 4, 5], inv: ['paid', 'due', 'scheduled', 'void', 'sub', 'half1', 'half2'], role: ['company', 'student', 'office', 'r1', 'r2', 'r3', 'j1', 'j2', 'j3', 'j4'],
+  prog: ['ds', 'se', 'cs', 'me', 'ee', 'fin', 'ba', 'mkt', 'mgmt', 'gm', 'dn', 'arch', 'intd', 'gd', 'hm', 'tm'], school: ['eng', 'bus', 'med', 'den', 'arc', 'hos'], emp: ['full', 'intern', 'part'],
+  st: ['shortlisted', 'intro', 'interview', 'offer', 'hired'], ind: ['software', 'finance', 'healthcare', 'manufacturing', 'retail', 'hospitality', 'construction'], lang: ['uz', 'ru', 'en'],
+  fun: [0, 1, 2, 3, 4, 5], inv: ['paid', 'due', 'scheduled', 'void', 'sub', 'half1', 'half2'], role: ['company', 'student', 'office', 'r1', 'r2', 'r3', 'j1', 'j2', 'j3', 'j4', 'j5', 'j6'],
   n: ['talent', 'pipeline', 'roles', 'billing', 'inbox', 'jobs', 'me', 'overview', 'outcomes', 'placements', 'companies'],
   ax: ['acad', 'skills', 'proj', 'act', 'eng', 'att'], lvl: [1, 2, 3, 4, 5], gap: ['short', 'tight', 'ok'],
   'ag.rx': ['salary', 'english', 'gpa', 'year'], 'ai.v': ['strong', 'good', 'stretch'], style: ['t', 'a', 'b'],

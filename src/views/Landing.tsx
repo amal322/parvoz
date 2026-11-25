@@ -6,10 +6,10 @@ import { enter, useStore } from '../data/store'
 import { startTour } from '../ui/tour'
 import { HeroB } from './LandingB'
 import { useT } from '../i18n'
-import { Btn, Icon, LangSwitch, Odometer, Portrait, Reveal, StudentCard, Title } from '../ui/bits'
+import { Backed, Btn, Icon, LangSwitch, Odometer, Portrait, Reveal, StudentCard, Title } from '../ui/bits'
 
 const bySchool = (s: School) => STUDENTS.filter((x) => x.school === s).sort((a, b) => b.cvScore - a.cvScore)
-const eng = bySchool('eng'), bus = bySchool('bus'), med = bySchool('med'), den = bySchool('den')
+const eng = bySchool('eng'), bus = bySchool('bus'), med = bySchool('med'), den = bySchool('den'), arc = bySchool('arc'), hos = bySchool('hos')
 const me = STUDENTS[0]
 // seven cards on the hero table: [student, left %, top px, tilt deg]
 const TABLE: [Student, number, number, number][] = [
@@ -18,8 +18,8 @@ const TABLE: [Student, number, number, number][] = [
   [med[0], 29, 58, -3],
   [me, 43, 0, 3],
   [den[0], 57, 52, -6],
-  [bus[1], 71, 8, 6],
-  [eng.filter((s) => s.id !== me.id)[1], 85, 44, -4],
+  [arc[0], 71, 8, 6],
+  [hos[0], 85, 44, -4],
 ]
 
 function HeroCards() {
@@ -72,7 +72,7 @@ function HeroCards() {
 
 function Marquee() {
   const { t } = useT()
-  const items = ['ds', 'fin', 'gm', 'se', 'mkt', 'dn', 'me', 'ba', 'cs', 'mgmt', 'ee']
+  const items = ['ds', 'fin', 'gm', 'arch', 'se', 'hm', 'mkt', 'dn', 'gd', 'me', 'ba', 'tm', 'cs', 'intd', 'mgmt', 'ee']
   const row = (hidden?: boolean) => (
     <div className="marquee-row" aria-hidden={hidden || undefined}>
       {items.map((p, i) => <span key={p} className={i % 2 ? 't-serif' : 't-sans'}>{t('prog.' + p)}<i aria-hidden="true">✦</i></span>)}
@@ -83,7 +83,7 @@ function Marquee() {
 
 function Schools() {
   const { t } = useT()
-  const groups: Record<School, Student[]> = { eng, bus, med, den }
+  const groups: Record<School, Student[]> = { eng, bus, med, den, arc, hos }
   const live = useLiveStats()
   return (
     <section className="sec wrap" id="schools">
@@ -271,6 +271,7 @@ export function Landing() {
               <button className="ulink" onClick={startTour}><Icon name="play" size={14} />{t('hero.tour')}</button>
               <button className="ulink" onClick={() => scrollTo('fee')}>{t('hero.cta2')}<Icon name="down" size={16} /></button>
             </div>
+            <Backed />
             <p className="hero-note">{t('hero.demo')}</p>
           </Reveal>
         </div>
@@ -296,7 +297,7 @@ export function Landing() {
           </div>
           <div className="foot-base">
             <span className="wordmark-big" aria-hidden="true">Parvoz</span>
-            <p>{t('foot.note')}<br />{t('foot.portraits')}</p>
+            <div className="foot-meta"><Backed /><p>{t('foot.note')}<br />{t('foot.portraits')}</p></div>
             <LangSwitch />
           </div>
         </div>

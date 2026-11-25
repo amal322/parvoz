@@ -175,6 +175,9 @@ await admin()
 await sql(readFileSync(new URL('../supabase/migrations/0003_insights.sql', import.meta.url), 'utf8'))
 await sql('set search_path = parvoz')
 check('0003 applies on top of existing data', Number((await one('select count(*) as n from students')).n) === 13)
+await sql(readFileSync(new URL('../supabase/migrations/0004_six_schools.sql', import.meta.url), 'utf8'))
+await sql('set search_path = parvoz')
+check('0004 adds the two new schools', (await db.query(`select unnest(enum_range(null::school))::text as s`)).rows.length === 6)
 
 // demo data and the live-check script
 const seed = readFileSync(new URL('../supabase/seed.sql', import.meta.url), 'utf8')
@@ -183,10 +186,10 @@ await sql('set search_path = parvoz')
 
 // the record behind the profile charts
 const ins = await one(`select (select count(*) from student_terms) as terms,
-  (select count(*) from students where student_no ~ '^(ENG|BUS|MED|DEN)-[0-9]{4}$' and score_academic + score_projects + score_activity = cv_score) as scored,
-  (select count(*) from student_skills ss join students s on s.id = ss.student_id where s.student_no ~ '^(ENG|BUS|MED|DEN)-[0-9]{4}$' and ss.level is null) as unlevelled,
+  (select count(*) from students where student_no ~ '^(ENG|BUS|MED|DEN|ARC|HOS)-[0-9]{4}$' and score_academic + score_projects + score_activity = cv_score) as scored,
+  (select count(*) from student_skills ss join students s on s.id = ss.student_id where s.student_no ~ '^(ENG|BUS|MED|DEN|ARC|HOS)-[0-9]{4}$' and ss.level is null) as unlevelled,
   (select count(*) from (select t.student_id from student_terms t join students s on s.id = t.student_id group by t.student_id, s.gpa having abs(avg(t.gpa) - s.gpa) > 0.02) x) as drift`)
-check('seed fills semesters, skill levels and score parts', Number(ins.terms) > 150 && Number(ins.scored) === 36 && Number(ins.unlevelled) === 0, JSON.stringify(ins))
+check('seed fills semesters, skill levels and score parts', Number(ins.terms) > 150 && Number(ins.scored) === 48 && Number(ins.unlevelled) === 0, JSON.stringify(ins))
 check('semester grades average to the cumulative GPA', Number(ins.drift) === 0)
 await sql(`insert into student_terms values ('${U.stu}', 1, 3.7, 95), ('${U.stu}', 2, 3.9, 97), ('${U.hidden}', 1, 3.0, 80)`)
 
@@ -196,7 +199,7 @@ check('talent view carries skill levels and score parts', t1 && t1.score_academi
 check('subscriber reads semesters of listed students', (await db.query(`select * from student_terms where student_id = '${U.stu}'`)).rows.length === 2)
 check('semesters of a hidden student stay hidden', (await db.query(`select * from student_terms where student_id = '${U.hidden}'`)).rows.length === 0)
 const cs = (await db.query('select * from cohort_stats() order by school')).rows
-check('school averages cover the four schools', cs.length === 4 && cs.every((r) => Number(r.gpa) > 2 && Number(r.cv_median) > 0), cs.map((r) => `${r.school} ${r.students} ${r.gpa}`).join(', '))
+check('school averages cover the six schools', cs.length === 6 && cs.every((r) => Number(r.gpa) > 2 && Number(r.cv_median) > 0), cs.map((r) => `${r.school} ${r.students} ${r.gpa}`).join(', '))
 check('semester averages need at least three students', (await db.query('select * from cohort_terms()')).rows.every((r) => r.students >= 3))
 
 await as(U.rival)
@@ -205,16 +208,16 @@ check('no subscription → no semesters and no averages',
 
 await as(U.stu)
 check('student reads own semesters only', (await db.query('select distinct student_id from student_terms')).rows.length === 1)
-check('student sees school averages and scores without names', (await db.query('select * from cohort_stats()')).rows.length === 4 && (await one(`select school_scores('engineering') as a`)).a.length >= 14)
+check('student sees school averages and scores without names', (await db.query('select * from cohort_stats()')).rows.length === 6 && (await one(`select school_scores('engineering') as a`)).a.length >= 14)
 await rejects('student cannot change a part of the score', `update students set score_projects = 280 where id = '${U.stu}'`)
 await rejects('student cannot grade own skill', `insert into student_skills (student_id, skill_id, verified, level) select '${U.stu}', id, false, 5 from skills where name = 'Docker'`)
 await rejects('student cannot write semesters', `insert into student_terms values ('${U.stu}', 3, 4.0, 100)`)
 await anon()
 await rejects('visitor cannot read school averages', 'select * from cohort_stats()')
 await admin()
-const c = await one(`select (select count(*) from students where student_no ~ '^(ENG|BUS|MED|DEN)-[0-9]{4}$') as students, (select count(*) from companies where tin like 'DEMO-%') as companies,
+const c = await one(`select (select count(*) from students where student_no ~ '^(ENG|BUS|MED|DEN|ARC|HOS)-[0-9]{4}$') as students, (select count(*) from companies where tin like 'DEMO-%') as companies,
   (select count(*) from job_roles r join companies c on c.id = r.company_id where c.tin like 'DEMO-%') as roles, (select count(*) from projects) as projects, (select count(*) from student_skills) as skills`)
-check('seed loads once however often it runs', Number(c.students) === 36 && Number(c.companies) === 6 && Number(c.roles) === 7 && Number(c.projects) === 72, JSON.stringify(c))
+check('seed loads once however often it runs', Number(c.students) === 48 && Number(c.companies) === 8 && Number(c.roles) === 9 && Number(c.projects) === 96, JSON.stringify(c))
 let verdict = ''
 try { await sql(readFileSync(new URL('../supabase/verify.sql', import.meta.url), 'utf8')) } catch (e) { verdict = e.message }
 check('verify.sql passes and rolls itself back', /PARVOZ VERIFY 14\/14 passed/.test(verdict) && Number((await one(`select count(*) as n from companies where tin = 'VERIFY-0001'`)).n) === 0, verdict.split('\n')[0])
